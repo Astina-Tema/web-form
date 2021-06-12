@@ -12,11 +12,22 @@
       </div>
       <h1 class="app-title-text">· 缔造中国专业的养老护理服务 ·</h1>
     </div>
-    
-    <div class="form-content">
-      <van-progress :percentage="50" stroke-width="8" color="#F25314" track-color="#FCD9CA" :show-pivot="false" />
+    <!-- 表格 -->
+    <div class="form-container">
+      <!-- 进度条 -->
+      <div class="form-progress">
+        <van-progress :percentage="25" stroke-width="8" color="#F25314" track-color="#FCD9CA" :show-pivot="false" />
+        <div class="form-progress-content wrap">
+          <span class="form-progress-current">1</span>
+          <span class="form-progress-total">/4</span>
+        </div>
+      </div>
+      <!-- 表单体 -->
+      <div class="form-content">
+        
+      </div>
     </div>
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -60,9 +71,20 @@ export default {
   text-align: center;
   color: #F25314;
 }
-.form-content {
+.form-container {
   margin-top: 0.3rem;
   overflow: hidden;
   background: #fff;
+}
+.form-progress-content {
+  color: #F25314;
+  letter-spacing: 6px;
+}
+.form-progress-current {
+  font-size: 0.56rem;
+  font-weight: 600;
+}
+.form-progress-total {
+  font-size: 0.38rem;
 }
 </style>
