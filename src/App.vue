@@ -1,32 +1,58 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <!-- 头部 -->
+    <div class="app-title">
+      <div class="app-title-logo">
+        <van-image
+          width="0.84rem"
+          height="1.04rem"
+          fit="cover"
+          src="https://img1.baidu.com/it/u=379226345,3276899612&fm=26&fmt=auto&gp=0.jpg"
+        />
+      </div>
+      <h1 class="app-title-text">· 缔造中国专业的养老护理服务 ·</h1>
     </div>
-    <router-view/>
+    
   </div>
 </template>
 
+<script>
+import {
+  Image as VanImage,
+} from 'vant';
+export default {
+  data() {
+
+  },
+  methods: {
+
+  },
+  components: {
+    VanImage
+  }
+}
+</script>
+
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: #F2F2F2;
+}
+.app-title {
+  height: 2.8rem;
+  background: url('https://img0.baidu.com/it/u=2022506399,1365193603&fm=26&fmt=auto&gp=0.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.app-title-logo {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.54rem;
+}
+.app-title-text {
+  font-size: 0.38rem;;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  color: #F25314;
 }
 </style>
