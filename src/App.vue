@@ -24,7 +24,16 @@
       </div>
       <!-- 表单体 -->
       <div class="form-content">
-        
+        <!-- 标题 -->
+        <div class="form-content-title wrap">
+          <h2 class="form-title-name">学员入学登记表</h2>
+          <p class="form-title-tip">以下内容请填写个人的真实信息！</p>
+        </div>
+        <van-divider dashed :style="{ borderColor: '#ccc' }" />
+        <!-- 表单内容 -->
+        <div class="form-part-1">
+          
+        </div>
       </div>
     </div>
   </div> 
@@ -34,7 +43,7 @@
 import {
   Image as VanImage,
   Progress as VanProgress,
-
+  Divider as VanDivider,
 } from 'vant';
 export default {
   data() {
@@ -44,7 +53,7 @@ export default {
 
   },
   components: {
-    VanImage, VanProgress
+    VanImage, VanProgress, VanDivider
   }
 }
 </script>
@@ -53,6 +62,7 @@ export default {
 #app {
   background: #F2F2F2;
 }
+/* 头部 */
 .app-title {
   height: 2.8rem;
   background: url('https://img0.baidu.com/it/u=2022506399,1365193603&fm=26&fmt=auto&gp=0.jpg') no-repeat;
@@ -71,14 +81,17 @@ export default {
   text-align: center;
   color: #F25314;
 }
+/* 表单体 */
 .form-container {
   margin-top: 0.3rem;
   overflow: hidden;
   background: #fff;
 }
+/* 进度条 */
 .form-progress-content {
   color: #F25314;
   letter-spacing: 6px;
+  line-height: 0.5rem;
 }
 .form-progress-current {
   font-size: 0.56rem;
@@ -87,4 +100,19 @@ export default {
 .form-progress-total {
   font-size: 0.38rem;
 }
+/* 表单标题 */
+.form-content-title {
+  height: auto;
+}
+.form-title-name {
+  font-size: 0.34rem;
+  line-height: 0.7rem;
+  font-weight: bold;
+}
+.form-title-tip {
+  font-size: 0.26rem;
+  color: #FDA988;
+  line-height: 0.36rem;
+}
+/* 表单内容 */
 </style>
