@@ -32,7 +32,22 @@
         <van-divider dashed :style="{ borderColor: '#ccc' }" />
         <!-- 表单内容 -->
         <div class="form-part-1">
-          
+          <div class="form-base-info wrap">
+            <h2 class="base-info-header">基本信息</h2>
+            <van-form>
+              <div class="base-info-avatar">
+                <span class="info-title">照片：(选填)</span>
+                <div class="avatar-uploader">
+                  <van-uploader :after-read="afterRead">
+                    <div class="uploader-inner">
+                      <van-icon name="user-circle-o" color="#fff" />
+                    </div>
+                  </van-uploader>
+                </div>
+              </div>
+            </van-form>
+            <van-divider :style="{ borderColor: '##E1E1E1' }" />
+          </div>
         </div>
       </div>
     </div>
@@ -40,21 +55,18 @@
 </template>
 
 <script>
-import {
-  Image as VanImage,
-  Progress as VanProgress,
-  Divider as VanDivider,
-} from 'vant';
 export default {
   data() {
+    return {
 
+    }
   },
   methods: {
-
+    afterRead(file) {
+      // 此时可以自行将文件上传至服务器
+      console.log(file);
+    },
   },
-  components: {
-    VanImage, VanProgress, VanDivider
-  }
 }
 </script>
 
@@ -115,4 +127,35 @@ export default {
   line-height: 0.36rem;
 }
 /* 表单内容 */
+.base-info-header {
+  font-size: 0.32rem;
+  color: #F25314;
+  font-weight: bold;
+}
+.base-info-avatar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.info-title {
+  font-size: 0.3rem;
+  line-height: 1.1rem;
+  /* vertical-align: middle; */
+  color: #777;
+}
+.avatar-uploader {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 0.1rem;
+  overflow: hidden;
+  background: url('https://img01.yzcdn.cn/vant/cat.jpeg') no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  font-size: 0.5rem;
+  line-height: 1.1rem;
+}
+.form-base-info > .van-divider {
+  margin-top: 0.06rem;
+}
 </style>
