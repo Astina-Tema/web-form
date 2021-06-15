@@ -381,7 +381,7 @@ export default {
         maxDate: new Date(2025, 10, 1),
         currentDate: new Date(2021, 0, 17),
       },
-      emergentContact:[
+      emergentContact:[ // 紧急联系人
         {
           name: '',
           relationship: '',
