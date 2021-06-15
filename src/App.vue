@@ -12,7 +12,7 @@
       </div>
       <h1 class="app-title-text">· 缔造中国专业的养老护理服务 ·</h1>
     </div>
-    <!-- 表格 -->
+    <!-- 表单 -->
     <div class="form-container">
       <!-- 进度条 -->
       <div class="form-progress">
@@ -34,7 +34,7 @@
         <div class="form-part-1">
           <van-form v-if="progress.current===1">
           <!-- 基本信息 -->
-            <div class="form-base-info wrap">
+            <div class="form-base wrap">
               <h2 class="base-info-header">基本信息</h2>
                 <div class="base-info-avatar">
                   <span class="info-title">照片：(选填)</span>
@@ -79,7 +79,7 @@
             </div>
             <van-divider dashed :style="{ borderColor: '#ccc' }" />
             <!-- 出生日期及户口所在地 -->
-            <div class="form-base-info wrap">
+            <div class="form-base wrap">
               <h2 class="base-info-header">出生日期及户口所在地</h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-form>
@@ -130,7 +130,7 @@
             </div>
             <van-divider dashed :style="{ borderColor: '#ccc' }" />
             <!-- 联系电话及地址 -->
-            <div class="form-base-info wrap">
+            <div class="form-base wrap">
               <h2 class="base-info-header">联系电话及地址</h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
                 <van-cell-group>
@@ -156,125 +156,193 @@
         <div class="form-part-2">
           <van-form v-if="progress.current===2">
             <!-- 自身情况 -->
-            <div class="form-base-info wrap">
+            <div class="form-base wrap">
               <h2 class="base-info-header">自身情况</h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
-              <van-form>
-                <h3 class="radio-title">户籍情况：</h3>
-                <van-field name="radio" class="no-border">
-                  <template #input>
-                    <van-radio-group v-model="form.residenceSituation" direction="horizontal">
-                      <van-radio name="1">
-                        城镇
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                      </van-radio>
-                      <van-radio name="2">
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                        农户
-                      </van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-                <h3 class="radio-title">家庭病史：</h3>
-                <van-field name="radio" class="no-border">
-                  <template #input>
-                    <van-radio-group v-model="form.medicalHistory" direction="horizontal">
-                      <van-radio name="1">
-                        是
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                      </van-radio>
-                      <van-radio name="2">
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                        否
-                      </van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-                <h3 class="radio-title">在岗情况：</h3>
-                <van-field name="radio" class="no-border">
-                  <template #input>
-                    <van-radio-group v-model="form.jobSituation" direction="horizontal">
-                      <van-radio name="1">
-                        是
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                      </van-radio>
-                      <van-radio name="2">
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                        否
-                      </van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-                <h3 class="radio-title">是否需要推荐就业：</h3>
-                <van-field name="radio" class="no-border">
-                  <template #input>
-                    <van-radio-group v-model="form.needRecommend" direction="horizontal">
-                      <van-radio name="1">
-                        是
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                      </van-radio>
-                      <van-radio name="2">
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                        否
-                      </van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-                <h3 class="radio-title">培训意愿：</h3>
-                <van-field name="radio" class="no-border">
-                  <template #input>
-                    <van-radio-group v-model="form.trainWill" direction="horizontal">
-                      <van-radio name="1">
-                        是
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                      </van-radio>
-                      <van-radio name="2">
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                        否
-                      </van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-                <h3 class="radio-title">是否参加过技能培训：</h3>
-                <van-field name="radio" class="no-border">
-                  <template #input>
-                    <van-radio-group v-model="form.hadTrain" direction="horizontal">
-                      <van-radio name="1">
-                        是
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                      </van-radio>
-                      <van-radio name="2">
-                        <template #icon="props">
-                          <span :class="props.checked ? radio.active : radio.inactive" />
-                        </template>
-                        否
-                      </van-radio>
-                    </van-radio-group>
-                  </template>
-                </van-field>
-              </van-form>
+              <h3 class="radio-title">户籍情况：</h3>
+              <van-field name="radio" class="no-border">
+                <template #input>
+                  <van-radio-group v-model="form.residenceSituation" direction="horizontal">
+                    <van-radio name="1">
+                      城镇
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      农户
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
+              <h3 class="radio-title">家庭病史：</h3>
+              <van-field name="radio" class="no-border">
+                <template #input>
+                  <van-radio-group v-model="form.medicalHistory" direction="horizontal">
+                    <van-radio name="1">
+                      是
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      否
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
+              <h3 class="radio-title">在岗情况：</h3>
+              <van-field name="radio" class="no-border">
+                <template #input>
+                  <van-radio-group v-model="form.jobSituation" direction="horizontal">
+                    <van-radio name="1">
+                      是
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      否
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
+              <h3 class="radio-title">是否需要推荐就业：</h3>
+              <van-field name="radio" class="no-border">
+                <template #input>
+                  <van-radio-group v-model="form.needRecommend" direction="horizontal">
+                    <van-radio name="1">
+                      是
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      否
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
+              <h3 class="radio-title">培训意愿：</h3>
+              <van-field name="radio" class="no-border">
+                <template #input>
+                  <van-radio-group v-model="form.trainWill" direction="horizontal">
+                    <van-radio name="1">
+                      是
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      否
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
+              <h3 class="radio-title">是否参加过技能培训：</h3>
+              <van-field name="radio" class="no-border">
+                <template #input>
+                  <van-radio-group v-model="form.hadTrain" direction="horizontal">
+                    <van-radio name="1">
+                      是
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      否
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
+            </div>
+            <van-divider dashed :style="{ borderColor: '#ccc' }" />
+            <!-- 紧急联系人 -->
+            <div class="form-base wrap">
+              <div class="base-info-header-add">
+                <h2 class="base-info-header">紧急联系人</h2>
+                <van-icon size="0.5rem" name="add-o" @click="addEmergentContact" />
+              </div>
+              <van-divider :style="{ borderColor: 'transparent' }" />
+              <div class="emergent-contact" v-for=" (contact, index) in emergentContact" :key="index">
+                <h3 class="emergent-contact-title">联系人{{index+1}}</h3>
+                <van-cell-group>
+                  <van-field
+                    v-model="contact.name"
+                    label="姓名："
+                    input-align="right"
+                    placeholder="请填写"/>
+                  <van-field
+                    v-model="contact.relationship"
+                    label="关系："
+                    input-align="right"
+                    placeholder="请填写"/>
+                  <van-field
+                    v-model="contact.tel"
+                    label="联系电话："
+                    input-align="right"
+                    placeholder="请选择"/>
+                </van-cell-group>
+              </div>
+            </div>
+            <!-- 报名渠道 -->
+            <div class="form-base wrap">
+              <h2 class="base-info-header">报名渠道</h2>
+              <!-- <van-divider :style="{ borderColor: 'transparent' }" /> -->
+              <van-field name="radio" class="no-border sign-up-method">
+                <template #input>
+                  <van-radio-group v-model="form.residenceSituation" direction="horizontal">
+                    <van-radio name="1">
+                      内部员工
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                    </van-radio>
+                    <van-radio name="2">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      公众号
+                    </van-radio>
+                    <van-radio name="3">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      招聘
+                    </van-radio>
+                    <van-radio name="4">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      内部推荐
+                    </van-radio>
+                    <van-radio name="5">
+                      <template #icon="props">
+                        <span :class="props.checked ? radio.active : radio.inactive" />
+                      </template>
+                      其他
+                    </van-radio>
+                  </van-radio-group>
+                </template>
+              </van-field>
             </div>
           </van-form>
         </div>
@@ -295,16 +363,16 @@ export default {
   data() {
     return {
       progress: { // 表单进度
-        current: 2,
+        current: 3,
         total: 4,
       },
       radio: { // 单选
         active: 'radio-icon-normal radio-icon-active',
-        inactive: 'radio-icon-normal radio-icon-inactive',
+        inactive: 'radio-icon-normal',
       },
       chooseGender: false,
       genders: [ // 性别
-        {text: '男', value: 0}, 
+        {text: '男', value: 0},
         {text: '女', value: 1}
       ],
       chooseBirthday: false,
@@ -313,6 +381,13 @@ export default {
         maxDate: new Date(2025, 10, 1),
         currentDate: new Date(2021, 0, 17),
       },
+      emergentContact:[
+        {
+          name: '',
+          relationship: '',
+          tel: '',
+        }
+      ],
       form: { // 表单
         id: '',
         name: '',
@@ -350,6 +425,15 @@ export default {
     confirmBirthday(data) {
       console.log(data);
       this.chooseBirthday = false
+    },
+    // 添加紧急联系人
+    addEmergentContact() {
+      const emergentContact = {
+        name: '',
+        relationship: '',
+        tel: '',
+      }
+      this.emergentContact.push(emergentContact)
     }
   },
 }
@@ -440,9 +524,49 @@ export default {
   font-size: 0.5rem;
   line-height: 1.1rem;
 }
-.form-base-info > .van-divider {
+.form-base > .van-divider {
   margin-top: 0.06rem;
 }
+/* 单选标题 */
+.radio-title {
+  font-size: 0.3rem;
+  line-height: 0.4rem;
+  color: #666;
+}
+/* 单选 - 公共 - 未选中 */
+.radio-icon-normal {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.48rem;
+  height: 0.48rem;
+  border: 0.02rem solid #D9D9D9;
+  border-radius: 0.24rem;
+}
+/* 单选 - 选中 */
+.radio-icon-active {
+  border-color: #F25314;
+}
+.radio-icon-active::after {
+  content: '';
+  display: block;
+  width: 0.32rem;
+  height: 0.32rem;
+  margin: 0.08rem;
+  border-radius: 0.16rem;
+  background: #F25314;
+}
+/* 添加 */
+.base-info-header-add {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.emergent-contact-title {
+  font-size: 0.3rem;
+  margin-bottom: 0.24rem;
+  color: #555;
+}
+
 /* 按钮 */
 .form-button-container {
   margin-top: 0.3rem;
