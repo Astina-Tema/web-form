@@ -2,3 +2,62 @@
   width: 92%;
   margin: 0 auto;
 }
+.no-border {
+  border: none !important;
+}
+/* field */
+.van-field {
+  border: 1px solid #E1E1E1;
+  border-radius: 6px;
+  margin-bottom: 0.24rem;
+}
+.van-field__label > span {
+  color: #777;
+}
+/* cell */
+.van-cell {
+  padding: 10px 8px !important;
+}
+/* 按钮 */
+.van-button--normal {
+  padding: 0 1.2rem;
+}
+.van-button--default {
+  border: 1px solid #000;
+}
+/* 单选 */
+.van-radio__icon {
+  height: 0.52rem !important;
+}
+/* 单选标题 */
+.radio-title {
+  font-size: 0.3rem;
+  line-height: 0.4rem;
+  color: #666;
+}
+/* 单选 - 公共 */
+.radio-icon-normal {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.48rem;
+  height: 0.48rem;
+  border: 0.02rem solid #D9D9D9;
+  border-radius: 0.24rem;
+}
+/* 单选 - 未选中 */
+.radio-icon-inactive {
+
+}
+/* 单选 - 选中 */
+.radio-icon-active {
+  border-color: #F25314;
+}
+.radio-icon-active::after {
+  content: '';
+  display: block;
+  width: 0.32rem;
+  height: 0.32rem;
+  margin: 0.08rem;
+  border-radius: 0.16rem;
+  background: #F25314;
+}
