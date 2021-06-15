@@ -31,421 +31,421 @@
         </div>
         <van-divider dashed :style="{ borderColor: '#ccc' }" />
         <!-- 表单内容 -->
-        <div class="form-part-1">
-          <van-form v-if="progress.current === 1">
-          <!-- 基本信息 -->
-            <div class="form-base wrap">
-              <h2 class="base-info-header">基本信息</h2>
-                <div class="base-info-avatar">
-                  <span class="info-title">照片：(选填)</span>
-                  <div class="avatar-uploader">
-                    <van-uploader :after-read="afterRead">
-                      <div class="uploader-inner">
-                        <van-icon name="user-circle-o" color="#e1e1e1" />
-                      </div>
-                    </van-uploader>
-                  </div>
+        <van-form v-if="progress.current === 1">
+        <!-- 基本信息 -->
+          <div class="form-base wrap">
+            <h2 class="base-info-header">基本信息</h2>
+              <div class="base-info-avatar">
+                <span class="info-title">照片：(选填)</span>
+                <div class="avatar-uploader">
+                  <van-uploader :after-read="afterRead">
+                    <div class="uploader-inner">
+                      <van-icon name="user-circle-o" color="#e1e1e1" />
+                    </div>
+                  </van-uploader>
                 </div>
-                <van-divider :style="{ borderColor: '#E1E1E1' }" />
-                <van-cell-group>
-                  <van-field
-                    v-model="form.id"
-                    label="学号："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="form.name"
-                    label="姓名："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    readonly
-                    clickable
-                    :value="form.gender"
-                    label="性别："
-                    input-align="right"
-                    placeholder="请选择"
-                    right-icon="arrow-down"
-                    @click="chooseGender = true"/>
-                  <van-popup v-model="chooseGender" title="选择性别" round position="bottom" safe-area-inset-bottom>
-                    <van-picker
-                      show-toolbar
-                      :columns="genders"
-                      @cancel="chooseGender = false"
-                      @confirm="confirmGender"
-                    />
-                  </van-popup>
-                </van-cell-group>
-            </div>
-            <van-divider dashed :style="{ borderColor: '#ccc' }" />
-            <!-- 出生日期及户口所在地 -->
-            <div class="form-base wrap">
-              <h2 class="base-info-header">出生日期及户口所在地</h2>
-              <van-divider :style="{ borderColor: 'transparent' }" />
-              <van-form>
-                <van-cell-group>
-                  <van-field
-                    v-model="form.age"
-                    label="年龄："
-                    input-align="right"
-                    placeholder="请选择"
-                    right-icon="arrow-down"/>
-                  <van-field
-                    v-model="form.education"
-                    label="最高学历："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    readonly
-                    clickable
-                    placeholder="请选择"
-                    right-icon="arrow-down"
-                    @click="chooseBirthday = true"
-                    :value="form.birthday"
-                    label="出生日期："
-                    input-align="right"/>
-                  <van-popup v-model="chooseBirthday" title="选择出生日期" :default-index="0" round position="bottom" safe-area-inset-bottom>
-                    <van-datetime-picker
-                      v-model="date.currentDate"
-                      type="date"
-                      title="选择出生日期"
-                      :min-date="date.minDate"
-                      :max-date="date.maxDate"
-                      @cancel="chooseBirthday = false"
-                      @confirm="confirmBirthday"
-                    />
-                  </van-popup>
-                  <van-field
-                    v-model="form.IDNumber"
-                    label="身份证号码："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="form.residence"
-                    label="户口所在地："
-                    input-align="right"
-                    placeholder="请填写"/>
-                </van-cell-group>
-              </van-form>
-            </div>
-            <van-divider dashed :style="{ borderColor: '#ccc' }" />
-            <!-- 联系电话及地址 -->
-            <div class="form-base wrap">
-              <h2 class="base-info-header">联系电话及地址</h2>
-              <van-divider :style="{ borderColor: 'transparent' }" />
-                <van-cell-group>
-                  <van-field
-                    v-model="form.tel"
-                    label="电话号码："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="form.address"
-                    label="联系地址："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="form.postcode"
-                    label="邮编："
-                    input-align="right"
-                    placeholder="请填写"/>
-                </van-cell-group>
-            </div>
-          </van-form>
-        </div>
-        <div class="form-part-2">
-          <van-form v-if="progress.current === 2">
-            <!-- 自身情况 -->
-            <div class="form-base wrap">
-              <h2 class="base-info-header">自身情况</h2>
-              <van-divider :style="{ borderColor: 'transparent' }" />
-              <h3 class="radio-title">户籍情况：</h3>
-              <van-field name="radio" class="no-border">
-                <template #input>
-                  <van-radio-group v-model="form.residenceSituation" direction="horizontal">
-                    <van-radio name="1">
-                      城镇
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      农户
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
-              <h3 class="radio-title">家庭病史：</h3>
-              <van-field name="radio" class="no-border">
-                <template #input>
-                  <van-radio-group v-model="form.medicalHistory" direction="horizontal">
-                    <van-radio name="1">
-                      是
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      否
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
-              <h3 class="radio-title">在岗情况：</h3>
-              <van-field name="radio" class="no-border">
-                <template #input>
-                  <van-radio-group v-model="form.jobSituation" direction="horizontal">
-                    <van-radio name="1">
-                      是
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      否
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
-              <h3 class="radio-title">是否需要推荐就业：</h3>
-              <van-field name="radio" class="no-border">
-                <template #input>
-                  <van-radio-group v-model="form.needRecommend" direction="horizontal">
-                    <van-radio name="1">
-                      是
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      否
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
-              <h3 class="radio-title">培训意愿：</h3>
-              <van-field name="radio" class="no-border">
-                <template #input>
-                  <van-radio-group v-model="form.trainWill" direction="horizontal">
-                    <van-radio name="1">
-                      是
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      否
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
-              <h3 class="radio-title">是否参加过技能培训：</h3>
-              <van-field name="radio" class="no-border">
-                <template #input>
-                  <van-radio-group v-model="form.hadTrain" direction="horizontal">
-                    <van-radio name="1">
-                      是
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      否
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
-            </div>
-            <van-divider dashed :style="{ borderColor: '#ccc' }" />
-            <!-- 紧急联系人 -->
-            <div class="form-base wrap">
-              <div class="base-info-header-add">
-                <h2 class="base-info-header">紧急联系人</h2>
-                <van-icon size="0.5rem" name="add-o" @click="addEmergentContact" />
               </div>
-              <van-divider :style="{ borderColor: 'transparent' }" />
-              <div class="emergent-contact" v-for=" (contact, index) in emergentContact" :key="index">
-                <h3 class="emergent-contact-title">联系人{{index+1}}</h3>
-                <van-cell-group>
-                  <van-field
-                    v-model="contact.name"
-                    label="姓名："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="contact.relationship"
-                    label="关系："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="contact.tel"
-                    label="联系电话："
-                    input-align="right"
-                    placeholder="请选择"/>
-                </van-cell-group>
-              </div>
+              <van-divider :style="{ borderColor: '#E1E1E1' }" />
+              <van-cell-group>
+                <van-field
+                  v-model="form.id"
+                  label="学号："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="form.name"
+                  label="姓名："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  readonly
+                  clickable
+                  :value="form.gender"
+                  label="性别："
+                  input-align="right"
+                  placeholder="请选择"
+                  right-icon="arrow-down"
+                  @click="chooseGender = true"/>
+                <van-popup v-model="chooseGender" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                  <van-picker
+                    show-toolbar
+                    :columns="genders"
+                    @cancel="chooseGender = false"
+                    @confirm="confirmGender"
+                  />
+                </van-popup>
+              </van-cell-group>
+          </div>
+          <van-divider dashed :style="{ borderColor: '#ccc' }" />
+          <!-- 出生日期及户口所在地 -->
+          <div class="form-base wrap">
+            <h2 class="base-info-header">出生日期及户口所在地</h2>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <van-form>
+              <van-cell-group>
+                <van-field
+                  v-model="form.age"
+                  label="年龄："
+                  input-align="right"
+                  placeholder="请选择"
+                  right-icon="arrow-down"/>
+                <van-field
+                  v-model="form.education"
+                  label="最高学历："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  readonly
+                  clickable
+                  placeholder="请选择"
+                  right-icon="arrow-down"
+                  @click="chooseBirthday = true"
+                  :value="form.birthday"
+                  label="出生日期："
+                  input-align="right"/>
+                <van-popup v-model="chooseBirthday" title="选择出生日期" :default-index="0" round position="bottom" safe-area-inset-bottom>
+                  <van-datetime-picker
+                    v-model="date.currentDate"
+                    type="date"
+                    title="选择出生日期"
+                    :min-date="date.minDate"
+                    :max-date="date.maxDate"
+                    @cancel="chooseBirthday = false"
+                    @confirm="confirmBirthday"
+                  />
+                </van-popup>
+                <van-field
+                  v-model="form.IDNumber"
+                  label="身份证号码："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="form.residence"
+                  label="户口所在地："
+                  input-align="right"
+                  placeholder="请填写"/>
+              </van-cell-group>
+            </van-form>
+          </div>
+          <van-divider dashed :style="{ borderColor: '#ccc' }" />
+          <!-- 联系电话及地址 -->
+          <div class="form-base wrap">
+            <h2 class="base-info-header">联系电话及地址</h2>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+              <van-cell-group>
+                <van-field
+                  v-model="form.tel"
+                  label="电话号码："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="form.address"
+                  label="联系地址："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="form.postcode"
+                  label="邮编："
+                  input-align="right"
+                  placeholder="请填写"/>
+              </van-cell-group>
+          </div>
+        </van-form>
+        <van-form v-if="progress.current === 2">
+          <!-- 自身情况 -->
+          <div class="form-base wrap">
+            <h2 class="base-info-header">自身情况</h2>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <h3 class="radio-title">户籍情况：</h3>
+            <van-field name="radio" class="no-border">
+              <template #input>
+                <van-radio-group v-model="form.residenceSituation" direction="horizontal">
+                  <van-radio name="1">
+                    城镇
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    农户
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+            <h3 class="radio-title">家庭病史：</h3>
+            <van-field name="radio" class="no-border">
+              <template #input>
+                <van-radio-group v-model="form.medicalHistory" direction="horizontal">
+                  <van-radio name="1">
+                    是
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    否
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+            <h3 class="radio-title">在岗情况：</h3>
+            <van-field name="radio" class="no-border">
+              <template #input>
+                <van-radio-group v-model="form.jobSituation" direction="horizontal">
+                  <van-radio name="1">
+                    是
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    否
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+            <h3 class="radio-title">是否需要推荐就业：</h3>
+            <van-field name="radio" class="no-border">
+              <template #input>
+                <van-radio-group v-model="form.needRecommend" direction="horizontal">
+                  <van-radio name="1">
+                    是
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    否
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+            <h3 class="radio-title">培训意愿：</h3>
+            <van-field name="radio" class="no-border">
+              <template #input>
+                <van-radio-group v-model="form.trainWill" direction="horizontal">
+                  <van-radio name="1">
+                    是
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    否
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+            <h3 class="radio-title">是否参加过技能培训：</h3>
+            <van-field name="radio" class="no-border">
+              <template #input>
+                <van-radio-group v-model="form.hadTrain" direction="horizontal">
+                  <van-radio name="1">
+                    是
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    否
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+          </div>
+          <van-divider dashed :style="{ borderColor: '#ccc' }" />
+          <!-- 紧急联系人 -->
+          <div class="form-base wrap">
+            <div class="base-info-header-add">
+              <h2 class="base-info-header">紧急联系人</h2>
+              <van-icon size="0.5rem" name="add-o" @click="addEmergentContact" />
             </div>
-            <!-- 报名渠道 -->
-            <div class="form-base wrap">
-              <h2 class="base-info-header">报名渠道</h2>
-              <!-- <van-divider :style="{ borderColor: 'transparent' }" /> -->
-              <van-field name="radio" class="no-border sign-up-method">
-                <template #input>
-                  <van-radio-group v-model="form.residenceSituation" direction="horizontal">
-                    <van-radio name="1">
-                      内部员工
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                    </van-radio>
-                    <van-radio name="2">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      公众号
-                    </van-radio>
-                    <van-radio name="3">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      招聘
-                    </van-radio>
-                    <van-radio name="4">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      内部推荐
-                    </van-radio>
-                    <van-radio name="5">
-                      <template #icon="props">
-                        <span :class="props.checked ? radio.active : radio.inactive" />
-                      </template>
-                      其他
-                    </van-radio>
-                  </van-radio-group>
-                </template>
-              </van-field>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <div class="emergent-contact" v-for=" (contact, index) in emergentContact" :key="index">
+              <h3 class="emergent-contact-title">联系人{{index+1}}</h3>
+              <van-cell-group>
+                <van-field
+                  v-model="contact.name"
+                  label="姓名："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="contact.relationship"
+                  label="关系："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="contact.tel"
+                  label="联系电话："
+                  input-align="right"
+                  placeholder="请选择"/>
+              </van-cell-group>
             </div>
-          </van-form>
-        </div>
-        <div class="form-part-2">
-          <van-form v-if="progress.current === 3">
-            <!-- 教育经历 -->
-            <div class="form-base wrap">
-              <div class="base-info-header-add">
-                <h2 class="base-info-header">教育经历</h2>
-                <van-icon size="0.5rem" name="add-o" @click="addEducationExprience" />
-              </div>
-              <van-divider :style="{ borderColor: 'transparent' }" />
-              <div class="emergent-contact" v-for=" (education, index) in educationExprience" :key="index">
-                <h3 class="emergent-contact-title">教育经历{{index+1}}</h3>
-                <van-cell-group>
-                  <van-field
-                    readonly
-                    clickable
-                    :value="education.date"
-                    label="时间：(选填)"
-                    input-align="right"
-                    placeholder="请选择"
-                    right-icon="arrow-down"
-                    @click="chooseEducationDate(index)"/>
-                  <van-popup v-model="education.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
-                    <van-datetime-picker
-                      v-model="education.date"
-                      type="date"
-                      title="选择年月日"
-                      :min-date="date.minDate"
-                      :max-date="date.maxDate"
-                      @cancel="closeEducationDate(index)"
-                      @confirm="confirmEducationDate($event,index)"
-                    />
-                  </van-popup>
-                  <van-field
-                    v-model="education.school"
-                    label="学校全称：(选填)"
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="education.education"
-                    label="学历："
-                    input-align="right"
-                    placeholder="请选择"/>
-                  <van-field
-                    v-model="education.major"
-                    label="专业："
-                    input-align="right"
-                    placeholder="请选择"/>
-                </van-cell-group>
-              </div>
+          </div>
+          <!-- 报名渠道 -->
+          <div class="form-base wrap">
+            <h2 class="base-info-header">报名渠道</h2>
+            <!-- <van-divider :style="{ borderColor: 'transparent' }" /> -->
+            <van-field name="radio" class="no-border sign-up-method">
+              <template #input>
+                <van-radio-group v-model="form.residenceSituation" direction="horizontal">
+                  <van-radio name="1">
+                    内部员工
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                  </van-radio>
+                  <van-radio name="2">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    公众号
+                  </van-radio>
+                  <van-radio name="3">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    招聘
+                  </van-radio>
+                  <van-radio name="4">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    内部推荐
+                  </van-radio>
+                  <van-radio name="5">
+                    <template #icon="props">
+                      <span :class="props.checked ? radio.active : radio.inactive" />
+                    </template>
+                    其他
+                  </van-radio>
+                </van-radio-group>
+              </template>
+            </van-field>
+          </div>
+        </van-form>
+        <van-form v-if="progress.current === 3">
+          <!-- 教育经历 -->
+          <div class="form-base wrap">
+            <div class="base-info-header-add">
+              <h2 class="base-info-header">教育经历</h2>
+              <van-icon size="0.5rem" name="add-o" @click="addEducationExprience" />
             </div>
-            <!-- 工作经历 -->
-            <div class="form-base wrap">
-              <div class="base-info-header-add">
-                <h2 class="base-info-header">工作经历</h2>
-                <van-icon size="0.5rem" name="add-o" @click="addJobExprience" />
-              </div>
-              <van-divider :style="{ borderColor: 'transparent' }" />
-              <div class="emergent-contact" v-for=" (job, index) in jobExprience" :key="index">
-                <h3 class="emergent-contact-title">工作经历{{index+1}}</h3>
-                <van-cell-group>
-                  <van-field
-                    readonly
-                    clickable
-                    :value="job.date"
-                    label="时间：(选填)"
-                    input-align="right"
-                    placeholder="请选择"
-                    right-icon="arrow-down"
-                    @click="chooseJobDate(index)"/>
-                  <van-popup v-model="job.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
-                    <van-datetime-picker
-                      v-model="job.date"
-                      type="date"
-                      title="选择年月日"
-                      :min-date="date.minDate"
-                      :max-date="date.maxDate"
-                      @cancel="closeJobDate(index)"
-                      @confirm="confirmJobDate($event,index)"
-                    />
-                  </van-popup>
-                  <van-field
-                    v-model="job.company"
-                    label="工作单位："
-                    input-align="right"
-                    placeholder="请填写"/>
-                  <van-field
-                    v-model="job.position"
-                    label="职位："
-                    input-align="right"
-                    placeholder="请选择"/>
-                  <van-field
-                    v-model="job.quitReason"
-                    label="离职原因："
-                    input-align="right"
-                    placeholder="请选择"/>
-                </van-cell-group>
-              </div>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <div class="emergent-contact" v-for=" (education, index) in educationExprience" :key="index">
+              <h3 class="emergent-contact-title">教育经历{{index+1}}</h3>
+              <van-cell-group>
+                <van-field
+                  readonly
+                  clickable
+                  :value="education.date"
+                  label="时间：(选填)"
+                  input-align="right"
+                  placeholder="请选择"
+                  right-icon="arrow-down"
+                  @click="chooseEducationDate(index)"/>
+                <van-popup v-model="education.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                  <van-datetime-picker
+                    v-model="education.date"
+                    type="date"
+                    title="选择年月日"
+                    :min-date="date.minDate"
+                    :max-date="date.maxDate"
+                    @cancel="closeEducationDate(index)"
+                    @confirm="confirmEducationDate($event,index)"
+                  />
+                </van-popup>
+                <van-field
+                  v-model="education.school"
+                  label="学校全称：(选填)"
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="education.education"
+                  label="学历："
+                  input-align="right"
+                  placeholder="请选择"/>
+                <van-field
+                  v-model="education.major"
+                  label="专业："
+                  input-align="right"
+                  placeholder="请选择"/>
+              </van-cell-group>
             </div>
-          </van-form>
-        </div>
+          </div>
+          <!-- 工作经历 -->
+          <div class="form-base wrap">
+            <div class="base-info-header-add">
+              <h2 class="base-info-header">工作经历</h2>
+              <van-icon size="0.5rem" name="add-o" @click="addJobExprience" />
+            </div>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <div class="emergent-contact" v-for=" (job, index) in jobExprience" :key="index">
+              <h3 class="emergent-contact-title">工作经历{{index+1}}</h3>
+              <van-cell-group>
+                <van-field
+                  readonly
+                  clickable
+                  :value="job.date"
+                  label="时间：(选填)"
+                  input-align="right"
+                  placeholder="请选择"
+                  right-icon="arrow-down"
+                  @click="chooseJobDate(index)"/>
+                <van-popup v-model="job.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                  <van-datetime-picker
+                    v-model="job.date"
+                    type="date"
+                    title="选择年月日"
+                    :min-date="date.minDate"
+                    :max-date="date.maxDate"
+                    @cancel="closeJobDate(index)"
+                    @confirm="confirmJobDate($event,index)"
+                  />
+                </van-popup>
+                <van-field
+                  v-model="job.company"
+                  label="工作单位："
+                  input-align="right"
+                  placeholder="请填写"/>
+                <van-field
+                  v-model="job.position"
+                  label="职位："
+                  input-align="right"
+                  placeholder="请选择"/>
+                <van-field
+                  v-model="job.quitReason"
+                  label="离职原因："
+                  input-align="right"
+                  placeholder="请选择"/>
+              </van-cell-group>
+            </div>
+          </div>
+        </van-form>
+        <van-form v-if="progress.current === 4">
+          <div class="form-base wrap">
+            <h2 class="base-info-header">个人技能<span class="base-info-header-desc">（如护工、月嫂……）</span></h2>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+          </div>
+        </van-form>
       </div>
     </div>
     <!-- 表单按钮 -->
@@ -733,6 +733,10 @@ export default {
   font-size: 0.3rem;
   margin-bottom: 0.24rem;
   color: #555;
+}
+.base-info-header-desc {
+  color: #525252;
+  font-weight: normal;
 }
 
 /* 按钮 */
