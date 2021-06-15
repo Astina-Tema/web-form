@@ -366,7 +366,7 @@ export default {
         current: 3,
         total: 4,
       },
-      radio: { // 单选
+      radio: { // 单选 class
         active: 'radio-icon-normal radio-icon-active',
         inactive: 'radio-icon-normal',
       },
