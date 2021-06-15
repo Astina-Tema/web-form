@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { Lazyload } from 'vant';
+import vueEsign from 'vue-esign'
 import App from './App.vue'
 
 import './assets/css/reset.css'
@@ -18,6 +19,7 @@ import {
 })
 
 Vue.use(Lazyload);
+Vue.use(vueEsign)
 Vue.config.productionTip = false
 
 new Vue({

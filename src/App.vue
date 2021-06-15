@@ -444,15 +444,55 @@
           <div class="form-base wrap">
             <h2 class="base-info-header">个人技能<span class="base-info-header-desc">（如护工、月嫂……）</span></h2>
             <van-divider :style="{ borderColor: 'transparent' }" />
+            <van-field
+              class="text-area-bg no-border"
+              v-model="form.skills"
+              type="textarea"
+              placeholder="请填写……"
+              show-word-limit
+            />
+            <h2 class="base-info-header">特长<span class="base-info-header-desc">（如做饭、唱歌、跳舞......）</span></h2>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <van-field
+            class="text-area-bg no-border"
+              v-model="form.specialty"
+              type="textarea"
+              placeholder="请填写……"
+              show-word-limit
+            />
+            <h2 class="base-info-header">个人描述<span class="base-info-header-desc">（如干活麻利、有耐心......</span></h2>
+            <van-divider :style="{ borderColor: 'transparent' }" />
+            <van-field
+              class="text-area-bg no-border"
+              v-model="form.selfDescription"
+              type="textarea"
+              placeholder="请填写……"
+              show-word-limit
+            />
           </div>
         </van-form>
+      </div>
+    </div>
+    <!-- 签字提示 -->
+    <div class="signature-tip wrap">
+      本人承诺：以上所填内容及提供的个人资料真实、可靠，如有虚假信息，本人愿意对此承担全部责任！
+    </div>
+    <!-- 签字处 -->
+    <div class="signature-container">
+      <div class="wrap">
+        <h2 class="base-info-header">本人签字</h2>
+        <div class="signature-place">
+          <span class="reset-signature" @click="resetSignature">清除文字</span>
+          <vue-esign ref="esign" :width="800" :height="520" />
+        </div>
       </div>
     </div>
     <!-- 表单按钮 -->
     <div class="form-button-container">
       <div class="button-container-inner wrap">
-        <van-button type="default" plain size="normal">上一步</van-button>
-        <van-button type="default" size="normal" color="linear-gradient(270deg, #F12711 0%, #F25314 32%, #F36815 48%, #F48917 72%, #F5AF19 100%)">下一步</van-button>
+        <van-button type="default" plain size="normal" @click="lastPage" :disabled="progress.current <= 1">上一步</van-button>
+        <van-button type="default" size="normal" color="linear-gradient(270deg, #F12711 0%, #F25314 32%, #F36815 48%, #F48917 72%, #F5AF19 100%)" @click="nextPage" v-if="progress.current < 4">下一步</van-button>
+        <van-button type="default" size="normal" color="linear-gradient(270deg, #F12711 0%, #F25314 32%, #F36815 48%, #F48917 72%, #F5AF19 100%)" @click="submit"  v-else>提交</van-button>
       </div>
     </div>
   </div> 
@@ -524,9 +564,14 @@ export default {
         needRecommend: '', // 是否需要推荐就业
         trainWill: '', // 培训意愿
         hadTrain: '', // 是否参加过技能培训
-
-      }
+        skills: '',
+        specialty: '', // 特长
+        selfDescription: '',
+      },
     }
+  },
+  mounted() {
+
   },
   methods: {
     afterRead(file) {
@@ -601,7 +646,26 @@ export default {
     confirmJobDate(date, index) {
       this.jobExprience[index].date = date
       this.closeJobDate(index)
-    }
+    },
+    // 上一步
+    lastPage() {
+      this.progress.current--;
+    },
+    // 下一步
+    nextPage() {
+      this.progress.current++;
+      // 回到顶部
+      document.body.scrollTop = document.documentElement.scrollTop = 0
+    },
+    // 清除签名
+    resetSignature() {
+      this.$refs.esign.reset()
+    },
+
+    // 提交
+    submit() {
+
+    },
 
   },
 }
@@ -737,6 +801,39 @@ export default {
 .base-info-header-desc {
   color: #525252;
   font-weight: normal;
+}
+.text-area-bg {
+  background: #F6F6F6;
+}
+.signature-tip {
+  color: #FD9F7A;
+  font-size: 0.26rem;
+  line-height: 0.42rem;
+  padding-top: 0.3rem;
+}
+.signature-container {
+  background: #fff;
+  padding: 0.3rem 0;
+}
+.signature-place {
+  position: relative;
+  margin-top: 0.24rem;
+  width: 100%;
+  height: 250px;
+  background: #F6F6F6;
+}
+/* 重置 */
+.reset-signature {
+  position: absolute;
+  top: -0.6rem;
+  right: 0;
+  width: 1.48rem;
+  height: 0.6rem;
+  background: #333;
+  color: #fff;
+  font-size: 0.3rem;
+  line-height: 0.6rem;
+  text-align: center;
 }
 
 /* 按钮 */
