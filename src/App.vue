@@ -32,7 +32,7 @@
         <van-divider dashed :style="{ borderColor: '#ccc' }" />
         <!-- 表单内容 -->
         <div class="form-part-1">
-          <van-form v-if="progress.current===1">
+          <van-form v-if="progress.current === 1">
           <!-- 基本信息 -->
             <div class="form-base wrap">
               <h2 class="base-info-header">基本信息</h2>
@@ -106,11 +106,11 @@
                     input-align="right"/>
                   <van-popup v-model="chooseBirthday" title="选择出生日期" :default-index="0" round position="bottom" safe-area-inset-bottom>
                     <van-datetime-picker
-                      v-model="birthday.currentDate"
+                      v-model="date.currentDate"
                       type="date"
                       title="选择出生日期"
-                      :min-date="birthday.minDate"
-                      :max-date="birthday.maxDate"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
                       @cancel="chooseBirthday = false"
                       @confirm="confirmBirthday"
                     />
@@ -154,7 +154,7 @@
           </van-form>
         </div>
         <div class="form-part-2">
-          <van-form v-if="progress.current===2">
+          <van-form v-if="progress.current === 2">
             <!-- 自身情况 -->
             <div class="form-base wrap">
               <h2 class="base-info-header">自身情况</h2>
@@ -346,6 +346,106 @@
             </div>
           </van-form>
         </div>
+        <div class="form-part-2">
+          <van-form v-if="progress.current === 3">
+            <!-- 教育经历 -->
+            <div class="form-base wrap">
+              <div class="base-info-header-add">
+                <h2 class="base-info-header">教育经历</h2>
+                <van-icon size="0.5rem" name="add-o" @click="addEducationExprience" />
+              </div>
+              <van-divider :style="{ borderColor: 'transparent' }" />
+              <div class="emergent-contact" v-for=" (education, index) in educationExprience" :key="index">
+                <h3 class="emergent-contact-title">教育经历{{index+1}}</h3>
+                <van-cell-group>
+                  <van-field
+                    readonly
+                    clickable
+                    :value="education.date"
+                    label="时间：(选填)"
+                    input-align="right"
+                    placeholder="请选择"
+                    right-icon="arrow-down"
+                    @click="chooseEducationDate(index)"/>
+                  <van-popup v-model="education.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                    <van-datetime-picker
+                      v-model="education.date"
+                      type="date"
+                      title="选择年月日"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                      @cancel="closeEducationDate(index)"
+                      @confirm="confirmEducationDate($event,index)"
+                    />
+                  </van-popup>
+                  <van-field
+                    v-model="education.school"
+                    label="学校全称：(选填)"
+                    input-align="right"
+                    placeholder="请填写"/>
+                  <van-field
+                    v-model="education.education"
+                    label="学历："
+                    input-align="right"
+                    placeholder="请选择"/>
+                  <van-field
+                    v-model="education.major"
+                    label="专业："
+                    input-align="right"
+                    placeholder="请选择"/>
+                </van-cell-group>
+              </div>
+            </div>
+            <!-- 工作经历 -->
+            <div class="form-base wrap">
+              <div class="base-info-header-add">
+                <h2 class="base-info-header">工作经历</h2>
+                <van-icon size="0.5rem" name="add-o" @click="addJobExprience" />
+              </div>
+              <van-divider :style="{ borderColor: 'transparent' }" />
+              <div class="emergent-contact" v-for=" (job, index) in jobExprience" :key="index">
+                <h3 class="emergent-contact-title">工作经历{{index+1}}</h3>
+                <van-cell-group>
+                  <van-field
+                    readonly
+                    clickable
+                    :value="job.date"
+                    label="时间：(选填)"
+                    input-align="right"
+                    placeholder="请选择"
+                    right-icon="arrow-down"
+                    @click="chooseJobDate(index)"/>
+                  <van-popup v-model="job.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                    <van-datetime-picker
+                      v-model="job.date"
+                      type="date"
+                      title="选择年月日"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                      @cancel="closeJobDate(index)"
+                      @confirm="confirmJobDate($event,index)"
+                    />
+                  </van-popup>
+                  <van-field
+                    v-model="job.company"
+                    label="工作单位："
+                    input-align="right"
+                    placeholder="请填写"/>
+                  <van-field
+                    v-model="job.position"
+                    label="职位："
+                    input-align="right"
+                    placeholder="请选择"/>
+                  <van-field
+                    v-model="job.quitReason"
+                    label="离职原因："
+                    input-align="right"
+                    placeholder="请选择"/>
+                </van-cell-group>
+              </div>
+            </div>
+          </van-form>
+        </div>
       </div>
     </div>
     <!-- 表单按钮 -->
@@ -363,7 +463,7 @@ export default {
   data() {
     return {
       progress: { // 表单进度
-        current: 3,
+        current: 4,
         total: 4,
       },
       radio: { // 单选 class
@@ -376,7 +476,7 @@ export default {
         {text: '女', value: 1}
       ],
       chooseBirthday: false,
-      birthday: { // 出生日期
+      date: { // 日期
         minDate: new Date(2010, 0, 1),
         maxDate: new Date(2025, 10, 1),
         currentDate: new Date(2021, 0, 17),
@@ -386,6 +486,24 @@ export default {
           name: '',
           relationship: '',
           tel: '',
+        }
+      ],
+      educationExprience: [ // 教育经历
+        {
+          isShow: false,
+          date: '',
+          school: '',
+          education: '',
+          major: '',
+        }
+      ],
+      jobExprience: [
+        {
+          isShow: false,
+          date: '',
+          company: '',
+          position: '',
+          quitReason: '',
         }
       ],
       form: { // 表单
@@ -434,7 +552,57 @@ export default {
         tel: '',
       }
       this.emergentContact.push(emergentContact)
+    },
+    // 添加教育经历
+    addEducationExprience() {
+      const exprience = {
+        isShow: false,
+        date: '',
+        school: '',
+        education: '',
+        major: '',
+      }
+      this.educationExprience.push(exprience)
+    },
+    // 选择教育经历时间
+    chooseEducationDate(index) {
+      console.log(index);
+      this.educationExprience[index].isShow = true
+    },
+    // 关闭教育经历时间
+    closeEducationDate(index) {
+      this.educationExprience[index].isShow = false
+    },
+    // 选择教育经历时间
+    confirmEducationDate(date,index) {
+      this.educationExprience[index].date = date
+      this.closeEducationDate(index)
+    },
+    // 添加工作经历
+    addJobExprience() {
+      const exprience = {
+        isShow: false,
+        date: '',
+        company: '',
+        position: '',
+        quitReason: '',
+      }
+      this.jobExprience.push(exprience)
+    },
+    // 选择工作经历时间
+    chooseJobDate(index) {
+      this.jobExprience[index].isShow = true
+    },
+    // 关闭工作经历时间
+    closeJobDate(index) {
+      this.jobExprience[index].isShow =  false
+    },
+    // 
+    confirmJobDate(date, index) {
+      this.jobExprience[index].date = date
+      this.closeJobDate(index)
     }
+
   },
 }
 </script>
