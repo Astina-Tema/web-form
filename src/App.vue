@@ -108,8 +108,7 @@
                   :rules="rules.birthday"/>
                 <van-popup v-model="chooseBirthday" title="选择出生日期" :default-index="0" round position="bottom" safe-area-inset-bottom>
                   <van-datetime-picker
-                    @change="datePickerChange"
-                    v-model="form.birthday"
+                    v-model="date.currentDate"
                     type="date"
                     title="选择出生日期"
                     :min-date="date.minDate"
@@ -386,7 +385,7 @@
                   @click="chooseEducationDate(index)"/>
                 <van-popup v-model="education.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
                   <van-datetime-picker
-                    v-model="education.date"
+                    v-model="date.currentDate"
                     type="date"
                     title="选择年月日"
                     :min-date="date.minDate"
@@ -404,12 +403,16 @@
                   v-model="education.education"
                   label="学历："
                   input-align="right"
-                  placeholder="请选择"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.educationExprience.education"/>
                 <van-field
                   v-model="education.major"
                   label="专业："
                   input-align="right"
-                  placeholder="请选择"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.educationExprience.major"/>
               </van-cell-group>
             </div>
           </div>
@@ -431,33 +434,39 @@
                   input-align="right"
                   placeholder="请选择"
                   right-icon="arrow-down"
-                  @click="chooseJobDate(index)"/>
-                <van-popup v-model="job.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                  @click="chooseJobDate(index)"
+                  />
+                <van-popup v-model="job.isShow" round position="bottom" safe-area-inset-bottom>
                   <van-datetime-picker
-                    v-model="job.date"
+                    v-model="date.currentDate"
                     type="date"
                     title="选择年月日"
                     :min-date="date.minDate"
                     :max-date="date.maxDate"
                     @cancel="closeJobDate(index)"
-                    @confirm="confirmJobDate($event,index)"
-                  />
+                    @confirm="confirmJobDate($event,index)"/>
                 </van-popup>
                 <van-field
                   v-model="job.company"
                   label="工作单位："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.jobExprience.company"/>
                 <van-field
                   v-model="job.position"
                   label="职位："
                   input-align="right"
-                  placeholder="请选择"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.jobExprience.position"/>
                 <van-field
                   v-model="job.quitReason"
                   label="离职原因："
                   input-align="right"
-                  placeholder="请选择"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.jobExprience.quitReason"/>
               </van-cell-group>
             </div>
           </div>
@@ -472,7 +481,8 @@
               type="textarea"
               placeholder="请填写……"
               show-word-limit
-            />
+              error-message-align="right"
+              :rules="rules.skills"/>
             <h2 class="base-info-header">特长<span class="base-info-header-desc">（如做饭、唱歌、跳舞......）</span></h2>
             <van-divider :style="{ borderColor: 'transparent' }" />
             <van-field
@@ -481,7 +491,8 @@
               type="textarea"
               placeholder="请填写……"
               show-word-limit
-            />
+              error-message-align="right"
+              :rules="rules.specialty"/>
             <h2 class="base-info-header">个人描述<span class="base-info-header-desc">（如干活麻利、有耐心......</span></h2>
             <van-divider :style="{ borderColor: 'transparent' }" />
             <van-field
@@ -490,7 +501,8 @@
               type="textarea"
               placeholder="请填写……"
               show-word-limit
-            />
+              error-message-align="right"
+              :rules="rules.selfDescription"/>
           </div>
         </van-form>
       </div>
@@ -528,7 +540,7 @@ export default {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 3,
+        current: 4,
         total: 4,
       },
       radio: { // 单选 class
@@ -674,7 +686,35 @@ export default {
         },
         signUpMethod: [
           { required: true, message: '请选择报名渠道！' }
-        ]
+        ],
+        educationExprience: {
+          education: [
+            { required: true, message: '请填写学历信息！' }
+          ],
+          major: [
+            { required: true, message: '请填写专业信息！' }
+          ],
+        },
+        jobExprience: {
+          company: [
+            { required: true, message: '请填写工作单位！' }
+          ],
+          position: [
+            { required: true, message: '请填写职位信息！' }
+          ],
+          quitReason: [
+            { required: true, message: '请填写离职原因！' }
+          ],
+        },
+        skills: [
+          { required: true, message: '请填写个人技能！' }
+        ],
+        specialty: [
+          { required: true, message: '请填写特长！' }
+        ],
+        selfDescription: [
+          { required: true, message: '请填写个人描述！' }
+        ],
 
       },
       
@@ -684,12 +724,7 @@ export default {
 
   },
   methods: {
-    // data-picker
-    datePickerChange(date) {
-      console.log(date);
-      console.log(date.getValues());
-    },
-    // 
+    // 头像
     afterRead(file) {
       // 此时可以自行将文件上传至服务器
       console.log(file.file);
@@ -697,13 +732,13 @@ export default {
     },
     // 选择性别
     confirmGender(gender) {
-      console.log(gender);
       this.form.gender = gender.text
       this.chooseGender = false
     },
     // 选择出生日期
-    confirmBirthday(data) {
-      console.log(data);
+    confirmBirthday(date) {
+      console.log(date);
+      this.form.birthday = this.handleDate(date)
       this.chooseBirthday = false
     },
     // 添加紧急联系人
@@ -737,8 +772,9 @@ export default {
     },
     // 选择教育经历时间
     confirmEducationDate(date,index) {
-      this.educationExprience[index].date = date
-      this.closeEducationDate(index)
+      this.educationExprience[index].date = this.handleDate(date)
+      // this.$set(this.educationExprience[index], 'date', this.handleDate(date))
+      this.educationExprience[index].isShow = false
     },
     // 添加工作经历
     addJobExprience() {
@@ -786,15 +822,13 @@ export default {
 
     // 提交
     submit() {
-
+      this.$refs.esign.generate()
+      .then((res) => {
+        console.log(res);
+      })
     },
 
   },
-  watch: {
-    'form.birthday': function(val) {
-      this.form.birthday = this.handleDate(val)
-    }
-  }
 }
 </script>
 
