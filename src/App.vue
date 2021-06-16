@@ -28,7 +28,7 @@
               <div class="base-info-avatar">
                 <van-field name="uploader" label="照片：(选填)" class="no-border" input-align="right">
                   <template #input>
-                    <van-uploader :after-read="afterRead" :max-count="1" v-model="fileList" :deletable="false" preview-size="1.1rem">
+                    <van-uploader :after-read="afterRead" :max-count="1" v-model="fileList"  preview-size="1.1rem">
                       <div class="avatar-uploader">
                         <van-image fit="contain" :src="avatar" />
                       </div>
@@ -85,7 +85,7 @@
                   label="年龄："
                   input-align="right"
                   type="digit"
-                  placeholder="请输入"
+                  placeholder="请填写"
                   error-message-align="right"
                   :rules="rules.age"/>
                 <van-field
@@ -315,7 +315,7 @@
                   v-model="contact.tel"
                   label="联系电话："
                   input-align="right"
-                  placeholder="请选择"
+                  placeholder="请填写"
                   error-message-align="right"
                   :rules="rules.emergentContact.tel"/>
               </van-cell-group>
@@ -556,7 +556,7 @@ export default {
       date: { // 日期
         minDate: new Date(1940, 0, 1),
         maxDate: new Date(2025, 10, 1),
-        currentDate: new Date(2021, 0, 17),
+        currentDate: new Date(2000, 0, 1),
       },
       emergentContact:[ // 紧急联系人
         {
@@ -609,16 +609,16 @@ export default {
       // 表单验证
       rules: {
         id: [
-          { required: true, message: '请输入学号！' }
+          { required: true, message: '请填写学号！' }
         ],
         name: [
-          { required: true, message: '请输入姓名！' }
+          { required: true, message: '请填写姓名！' }
         ],
         gender: [
           { required: true, message: '请选择性别！' }
         ],
         age: [
-          {required: true, message: '请输入年龄！'},
+          {required: true, message: '请填写年龄！'},
           {
             validator(age) {
               return age >= 18 && age <= 80
@@ -633,27 +633,27 @@ export default {
           { required: true, message: '请选择出生日期！' }
         ],
         IDNumber: [
-          { required: true, message: '请输入身份证号！' },
+          { required: true, message: '请填写身份证号！' },
           {
             pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
-            message: '输入的身份证信息有误!'
+            message: '填写的身份证信息有误!'
           }
         ],
         residence: [
           { required: true, message: '请选择出生日期！' }
         ],
         tel: [
-          { required: true, message: '请选择出生日期！' },
+          { required: true, message: '请填写手机号！' },
           {
             pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-            message: '输入的手机号有误!'
+            message: '填写的手机号有误!'
           }
         ],
         address: [
-          { required: true, message: '请输入联系地址！' }
+          { required: true, message: '请填写联系地址！' }
         ],
         postcode: [
-          { required: true, message: '请输入邮编！' }
+          { required: true, message: '请填写邮编！' }
         ],
         residenceSituation: [
           { required: true, message: '请选择户籍情况！' }
@@ -681,7 +681,11 @@ export default {
             { required: true, message: '请填写紧急联系人关系！' }
           ],
           tel: [
-            { required: true, message: '请填写紧急联系人的联系方式！' }
+            { required: true, message: '请填写紧急联系人的联系方式！' },
+            {
+              pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+              message: '填写的手机号有误!'
+            }
           ],
         },
         signUpMethod: [
@@ -797,7 +801,7 @@ export default {
     },
     // 
     confirmJobDate(date, index) {
-      this.jobExprience[index].date = date
+      this.jobExprience[index].date = this.handleDate(date)
       this.closeJobDate(index)
     },
     // 上一步
