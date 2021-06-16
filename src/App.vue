@@ -318,6 +318,7 @@
                     error-message-align="right"
                     :rules="rules.emergentContact.tel"/>
                 </van-cell-group>
+                <van-divider dashed :style="{ borderColor: '#ccc' }" />
               </div>
             </div>
             <!-- 报名渠道 -->
@@ -413,6 +414,7 @@
                     error-message-align="right"
                     :rules="rules.educationExprience.major"/>
                 </van-cell-group>
+                <van-divider dashed :style="{ borderColor: '#ccc' }" />
               </div>
             </div>
             <!-- 工作经历 -->
@@ -467,6 +469,7 @@
                     error-message-align="right"
                     :rules="rules.jobExprience.quitReason"/>
                 </van-cell-group>
+                <van-divider dashed :style="{ borderColor: '#ccc' }" />
               </div>
             </div>
           </div>
