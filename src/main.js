@@ -9,11 +9,11 @@ import './utils/rem'
 
 import {
   Image as VanImage, Progress, Divider, Uploader, Icon, Form, Field, Cell, CellGroup, Popup, Picker,
-  DatetimePicker, Button, RadioGroup, Radio, 
+  DatetimePicker, Button, RadioGroup, Radio, Notify, Toast, Dialog, Overlay, 
 } from 'vant'
 [
   VanImage, Progress, Divider, Uploader, Icon, Form, Field, Cell, CellGroup, Popup, Picker,
-  DatetimePicker, Button, RadioGroup, Radio, 
+  DatetimePicker, Button, RadioGroup, Radio, Notify, Toast, Dialog, Overlay, 
 ].forEach(component => {
   Vue.use(component)
 })

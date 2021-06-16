@@ -43,3 +43,7 @@
 .base-info-avatar .van-field {
   margin-bottom: 0;
 }
+.customToast {
+  background: #fff;
+  color: #F25314;
+}

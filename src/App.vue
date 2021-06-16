@@ -290,11 +290,14 @@
             <div class="form-base wrap">
               <div class="base-info-header-add">
                 <h2 class="base-info-header">紧急联系人</h2>
-                <van-icon size="0.5rem" name="add-o" @click="addEmergentContact" />
+                <van-icon size="0.5rem" name="add-o" @click="addEmergentContact" v-if="emergentContact.length<2" />
               </div>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <div class="emergent-contact" v-for=" (contact, index) in emergentContact" :key="index">
-                <h3 class="emergent-contact-title">联系人{{index+1}}</h3>
+                <h3 class="emergent-contact-title">
+                  联系人{{index+1}}
+                  <van-icon v-if="index!==0" name="cross" @click="this.emergentContact.splice(index, 1)" />
+                </h3>
                 <van-cell-group>
                   <van-field
                     v-model="contact.name"
@@ -368,11 +371,14 @@
             <div class="form-base wrap">
               <div class="base-info-header-add">
                 <h2 class="base-info-header">教育经历</h2>
-                <van-icon size="0.5rem" name="add-o" @click="addEducationExprience" />
+                <van-icon size="0.5rem" name="add-o" @click="addEducationExprience" v-if="educationExprience.length<3" />
               </div>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <div class="emergent-contact" v-for=" (education, index) in educationExprience" :key="index">
-                <h3 class="emergent-contact-title">教育经历{{index+1}}</h3>
+                <h3 class="emergent-contact-title">
+                  教育经历{{index+1}}
+                  <van-icon v-if="index!==0" name="cross" @click="this.educationExprience.splice(index, 1)" />
+                </h3>
                 <van-cell-group>
                   <van-field
                     readonly
@@ -421,11 +427,14 @@
             <div class="form-base wrap">
               <div class="base-info-header-add">
                 <h2 class="base-info-header">工作经历</h2>
-                <van-icon size="0.5rem" name="add-o" @click="addJobExprience" />
+                <van-icon size="0.5rem" name="add-o" @click="addJobExprience" v-if="jobExprience.length<3" />
               </div>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <div class="emergent-contact" v-for=" (job, index) in jobExprience" :key="index">
-                <h3 class="emergent-contact-title">工作经历{{index+1}}</h3>
+                <h3 class="emergent-contact-title">
+                  工作经历{{index+1}}
+                  <van-icon v-if="index!==0" name="cross" @click="jobExprience.splice(index, 1)" />
+                </h3>
                 <van-cell-group>
                   <van-field
                     readonly
@@ -536,14 +545,16 @@
 </template>
 
 <script>
+import { Notify, Toast, Dialog } from 'vant';
 import uploaderImg from './assets/images/uploader@2x.png'
+import successImg from './assets/images/success@2x.png'
 export default {
   data() {
     return {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 1,
+        current: 4,
         total: 4,
       },
       radio: { // 单选 class
@@ -820,7 +831,7 @@ export default {
         document.body.scrollTop = document.documentElement.scrollTop = 0
       })
       .catch(err => {
-        console.log(err);
+        Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
       })
       
     },
@@ -836,17 +847,26 @@ export default {
 
     // 提交
     submit() {
+      // 签名
       // this.$refs.esign.generate()
       // .then((res) => {
       //   console.log(res);
       // })
-      this.$refs.form.validate()
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      // 验证
+      // this.$refs.form.validate()
+      // .then(res => {
+      //   console.log(res);
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // })
+      Toast({
+        message: '提交成功',
+        icon: successImg,
+        forbidClick: true,
+        overlay: true,
+        className: 'customToast'
+      });
     },
 
   },
@@ -959,6 +979,9 @@ export default {
   justify-content: space-between;
 }
 .emergent-contact-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   font-size: 0.3rem;
   margin-bottom: 0.24rem;
   color: #555;
