@@ -540,7 +540,7 @@ export default {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 4,
+        current: 1,
         total: 4,
       },
       radio: { // 单选 class
