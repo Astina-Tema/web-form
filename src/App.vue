@@ -1,17 +1,7 @@
 <template>
   <div id="app">
     <!-- 头部 -->
-    <div class="app-title">
-      <div class="app-title-logo">
-        <van-image
-          width="0.84rem"
-          height="1.04rem"
-          fit="contain"
-          src="https://img1.baidu.com/it/u=379226345,3276899612&fm=26&fmt=auto&gp=0.jpg"
-        />
-      </div>
-      <h1 class="app-title-text">· 缔造中国专业的养老护理服务 ·</h1>
-    </div>
+    <div class="app-title"></div>
     <!-- 表单 -->
     <div class="form-container">
       <!-- 进度条 -->
@@ -36,14 +26,15 @@
           <div class="form-base wrap">
             <h2 class="base-info-header">基本信息</h2>
               <div class="base-info-avatar">
-                <span class="info-title">照片：(选填)</span>
-                <div class="avatar-uploader">
-                  <van-uploader :after-read="afterRead">
-                    <div class="uploader-inner">
-                      <van-icon name="user-circle-o" color="#e1e1e1" />
-                    </div>
-                  </van-uploader>
-                </div>
+                <van-field name="uploader" label="照片：(选填)" class="no-border" input-align="right">
+                  <template #input>
+                    <van-uploader :after-read="afterRead" :max-count="1" v-model="fileList" :deletable="false" preview-size="1.1rem">
+                      <div class="avatar-uploader">
+                        <van-image fit="contain" :src="avatar" />
+                      </div>
+                    </van-uploader>
+                  </template>
+                </van-field>
               </div>
               <van-divider :style="{ borderColor: '#E1E1E1' }" />
               <van-cell-group>
@@ -51,12 +42,16 @@
                   v-model="form.id"
                   label="学号："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.id"/>
                 <van-field
                   v-model="form.name"
                   label="姓名："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.name"/>
                 <van-field
                   readonly
                   clickable
@@ -65,7 +60,9 @@
                   input-align="right"
                   placeholder="请选择"
                   right-icon="arrow-down"
-                  @click="chooseGender = true"/>
+                  @click="chooseGender = true"
+                  error-message-align="right"
+                  :rules="rules.gender"/>
                 <van-popup v-model="chooseGender" title="选择性别" round position="bottom" safe-area-inset-bottom>
                   <van-picker
                     show-toolbar
@@ -87,13 +84,17 @@
                   v-model="form.age"
                   label="年龄："
                   input-align="right"
-                  placeholder="请选择"
-                  right-icon="arrow-down"/>
+                  type="digit"
+                  placeholder="请输入"
+                  error-message-align="right"
+                  :rules="rules.age"/>
                 <van-field
                   v-model="form.education"
                   label="最高学历："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.education"/>
                 <van-field
                   readonly
                   clickable
@@ -102,10 +103,13 @@
                   @click="chooseBirthday = true"
                   :value="form.birthday"
                   label="出生日期："
-                  input-align="right"/>
+                  input-align="right"
+                  error-message-align="right"
+                  :rules="rules.birthday"/>
                 <van-popup v-model="chooseBirthday" title="选择出生日期" :default-index="0" round position="bottom" safe-area-inset-bottom>
                   <van-datetime-picker
-                    v-model="date.currentDate"
+                    @change="datePickerChange"
+                    v-model="form.birthday"
                     type="date"
                     title="选择出生日期"
                     :min-date="date.minDate"
@@ -117,13 +121,18 @@
                 <van-field
                   v-model="form.IDNumber"
                   label="身份证号码："
+                  type="digit"
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.IDNumber"/>
                 <van-field
                   v-model="form.residence"
                   label="户口所在地："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.residence"/>
               </van-cell-group>
             </van-form>
           </div>
@@ -137,17 +146,24 @@
                   v-model="form.tel"
                   label="电话号码："
                   input-align="right"
-                  placeholder="请填写"/>
+                  type="tel"
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.tel"/>
                 <van-field
                   v-model="form.address"
                   label="联系地址："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.address"/>
                 <van-field
                   v-model="form.postcode"
                   label="邮编："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.postcode"/>
               </van-cell-group>
           </div>
         </van-form>
@@ -157,7 +173,7 @@
             <h2 class="base-info-header">自身情况</h2>
             <van-divider :style="{ borderColor: 'transparent' }" />
             <h3 class="radio-title">户籍情况：</h3>
-            <van-field name="radio" class="no-border">
+            <van-field name="radio" class="no-border" :rules="rules.residenceSituation">
               <template #input>
                 <van-radio-group v-model="form.residenceSituation" direction="horizontal">
                   <van-radio name="1">
@@ -176,7 +192,7 @@
               </template>
             </van-field>
             <h3 class="radio-title">家庭病史：</h3>
-            <van-field name="radio" class="no-border">
+            <van-field name="radio" class="no-border" :rules="rules.medicalHistory">
               <template #input>
                 <van-radio-group v-model="form.medicalHistory" direction="horizontal">
                   <van-radio name="1">
@@ -195,7 +211,7 @@
               </template>
             </van-field>
             <h3 class="radio-title">在岗情况：</h3>
-            <van-field name="radio" class="no-border">
+            <van-field name="radio" class="no-border" :rules="rules.jobSituation">
               <template #input>
                 <van-radio-group v-model="form.jobSituation" direction="horizontal">
                   <van-radio name="1">
@@ -214,7 +230,7 @@
               </template>
             </van-field>
             <h3 class="radio-title">是否需要推荐就业：</h3>
-            <van-field name="radio" class="no-border">
+            <van-field name="radio" class="no-border" :rules="rules.needRecommend">
               <template #input>
                 <van-radio-group v-model="form.needRecommend" direction="horizontal">
                   <van-radio name="1">
@@ -233,7 +249,7 @@
               </template>
             </van-field>
             <h3 class="radio-title">培训意愿：</h3>
-            <van-field name="radio" class="no-border">
+            <van-field name="radio" class="no-border" :rules="rules.trainWill">
               <template #input>
                 <van-radio-group v-model="form.trainWill" direction="horizontal">
                   <van-radio name="1">
@@ -252,7 +268,7 @@
               </template>
             </van-field>
             <h3 class="radio-title">是否参加过技能培训：</h3>
-            <van-field name="radio" class="no-border">
+            <van-field name="radio" class="no-border" :rules="rules.hadTrain">
               <template #input>
                 <van-radio-group v-model="form.hadTrain" direction="horizontal">
                   <van-radio name="1">
@@ -286,17 +302,23 @@
                   v-model="contact.name"
                   label="姓名："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.emergentContact.name"/>
                 <van-field
                   v-model="contact.relationship"
                   label="关系："
                   input-align="right"
-                  placeholder="请填写"/>
+                  placeholder="请填写"
+                  error-message-align="right"
+                  :rules="rules.emergentContact.relationship"/>
                 <van-field
                   v-model="contact.tel"
                   label="联系电话："
                   input-align="right"
-                  placeholder="请选择"/>
+                  placeholder="请选择"
+                  error-message-align="right"
+                  :rules="rules.emergentContact.tel"/>
               </van-cell-group>
             </div>
           </div>
@@ -304,9 +326,9 @@
           <div class="form-base wrap">
             <h2 class="base-info-header">报名渠道</h2>
             <!-- <van-divider :style="{ borderColor: 'transparent' }" /> -->
-            <van-field name="radio" class="no-border sign-up-method">
+            <van-field name="radio" class="no-border sign-up-method" :rules="rules.signUpMethod">
               <template #input>
-                <van-radio-group v-model="form.residenceSituation" direction="horizontal">
+                <van-radio-group v-model="form.signUpMethod" direction="horizontal">
                   <van-radio name="1">
                     内部员工
                     <template #icon="props">
@@ -474,11 +496,11 @@
       </div>
     </div>
     <!-- 签字提示 -->
-    <div class="signature-tip wrap">
+    <div class="signature-tip wrap" v-if="progress.current===4">
       本人承诺：以上所填内容及提供的个人资料真实、可靠，如有虚假信息，本人愿意对此承担全部责任！
     </div>
     <!-- 签字处 -->
-    <div class="signature-container">
+    <div class="signature-container" v-if="progress.current===4">
       <div class="wrap">
         <h2 class="base-info-header">本人签字</h2>
         <div class="signature-place">
@@ -499,11 +521,14 @@
 </template>
 
 <script>
+import uploaderImg from './assets/images/uploader@2x.png'
 export default {
   data() {
     return {
+      avatar: uploaderImg,
+      fileList: [],
       progress: { // 表单进度
-        current: 4,
+        current: 3,
         total: 4,
       },
       radio: { // 单选 class
@@ -517,7 +542,7 @@ export default {
       ],
       chooseBirthday: false,
       date: { // 日期
-        minDate: new Date(2010, 0, 1),
+        minDate: new Date(1940, 0, 1),
         maxDate: new Date(2025, 10, 1),
         currentDate: new Date(2021, 0, 17),
       },
@@ -551,7 +576,7 @@ export default {
         name: '',
         gender: '',
         age: null,
-        education: '',
+        education: '', // 学历
         birthday: '',
         IDNumber: '', // 身份证号
         residence: '', // 户口所在地
@@ -564,19 +589,111 @@ export default {
         needRecommend: '', // 是否需要推荐就业
         trainWill: '', // 培训意愿
         hadTrain: '', // 是否参加过技能培训
+        signUpMethod: '', // 报名渠道
         skills: '',
         specialty: '', // 特长
         selfDescription: '',
       },
+      // 表单验证
+      rules: {
+        id: [
+          { required: true, message: '请输入学号！' }
+        ],
+        name: [
+          { required: true, message: '请输入姓名！' }
+        ],
+        gender: [
+          { required: true, message: '请选择性别！' }
+        ],
+        age: [
+          {required: true, message: '请输入年龄！'},
+          {
+            validator(age) {
+              return age >= 18 && age <= 80
+            },
+            message: '年龄有误！'
+          }
+        ],
+        education: [
+          { required: true, message: '请填写学历！' }
+        ],
+        birthday: [
+          { required: true, message: '请选择出生日期！' }
+        ],
+        IDNumber: [
+          { required: true, message: '请输入身份证号！' },
+          {
+            pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+            message: '输入的身份证信息有误!'
+          }
+        ],
+        residence: [
+          { required: true, message: '请选择出生日期！' }
+        ],
+        tel: [
+          { required: true, message: '请选择出生日期！' },
+          {
+            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+            message: '输入的手机号有误!'
+          }
+        ],
+        address: [
+          { required: true, message: '请输入联系地址！' }
+        ],
+        postcode: [
+          { required: true, message: '请输入邮编！' }
+        ],
+        residenceSituation: [
+          { required: true, message: '请选择户籍情况！' }
+        ],
+        medicalHistory: [
+          { required: true, message: '请选择家庭病史！' }
+        ],
+        jobSituation: [
+          { required: true, message: '请选择在岗情况！' }
+        ],
+        needRecommend: [
+          { required: true, message: '请选择是否需要推荐就业！' }
+        ],
+        trainWill: [
+          { required: true, message: '请选择培训意愿！' }
+        ],
+        hadTrain: [
+          { required: true, message: '请选择是否参加过技能培训！' }
+        ],
+        emergentContact: {
+          name: [
+            { required: true, message: '请填写紧急联系人姓名！' }
+          ],
+          relationship: [
+            { required: true, message: '请填写紧急联系人关系！' }
+          ],
+          tel: [
+            { required: true, message: '请填写紧急联系人的联系方式！' }
+          ],
+        },
+        signUpMethod: [
+          { required: true, message: '请选择报名渠道！' }
+        ]
+
+      },
+      
     }
   },
   mounted() {
 
   },
   methods: {
+    // data-picker
+    datePickerChange(date) {
+      console.log(date);
+      console.log(date.getValues());
+    },
+    // 
     afterRead(file) {
       // 此时可以自行将文件上传至服务器
-      console.log(file);
+      console.log(file.file);
+      console.log(this.fileList);
     },
     // 选择性别
     confirmGender(gender) {
@@ -661,6 +778,11 @@ export default {
     resetSignature() {
       this.$refs.esign.reset()
     },
+    // 日期处理
+    handleDate(val) {
+      const date = new Date(val)
+      return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    },
 
     // 提交
     submit() {
@@ -668,6 +790,11 @@ export default {
     },
 
   },
+  watch: {
+    'form.birthday': function(val) {
+      this.form.birthday = this.handleDate(val)
+    }
+  }
 }
 </script>
 
@@ -678,21 +805,10 @@ export default {
 /* 头部 */
 .app-title {
   height: 2.8rem;
-  background: url('https://img0.baidu.com/it/u=2022506399,1365193603&fm=26&fmt=auto&gp=0.jpg') no-repeat;
+  background: url('assets/images/banner@2x.png') no-repeat;
   background-size: cover;
   background-position: center;
   overflow: hidden;
-}
-.app-title-logo {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: 0.54rem;
-}
-.app-title-text {
-  font-size: 0.38rem;;
-  text-align: center;
-  color: #F25314;
 }
 /* 表单体 */
 .form-container {
@@ -749,12 +865,6 @@ export default {
   height: 1.1rem;
   border-radius: 0.1rem;
   overflow: hidden;
-  background: url('https://img01.yzcdn.cn/vant/cat.jpeg') no-repeat;
-  background-position: center;
-  background-size: cover;
-  text-align: center;
-  font-size: 0.5rem;
-  line-height: 1.1rem;
 }
 .form-base > .van-divider {
   margin-top: 0.06rem;
@@ -809,7 +919,7 @@ export default {
   color: #FD9F7A;
   font-size: 0.26rem;
   line-height: 0.42rem;
-  padding-top: 0.3rem;
+  padding: 0.3rem 0;
 }
 .signature-container {
   background: #fff;
@@ -821,6 +931,15 @@ export default {
   width: 100%;
   height: 250px;
   background: #F6F6F6;
+}
+.signature-place::after {
+  content: '请在灰色区域内手写您的姓名';
+  width: 100%;
+  text-align: center;
+  color: #999999;
+  font-size: 0.3rem;
+  position: absolute;
+  bottom: 0.1rem;
 }
 /* 重置 */
 .reset-signature {
@@ -847,5 +966,17 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+/* 图片预览 */
+.preview-cover {
+  position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
 }
 </style>

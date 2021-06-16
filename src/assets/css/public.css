@@ -36,3 +36,10 @@
 .van-field__label {
   width: 2.2rem;
 }
+.base-info-avatar .van-field__label span {
+  display: inline-block;
+  margin-top: 0.6rem;
+}
+.base-info-avatar .van-field {
+  margin-bottom: 0;
+}
