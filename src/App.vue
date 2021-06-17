@@ -57,7 +57,7 @@
                   <van-field
                     readonly
                     clickable
-                    :value="form.gender"
+                    :value="pickerText.gender"
                     label="性别："
                     input-align="right"
                     placeholder="请选择"
@@ -72,6 +72,26 @@
                       :columns="genders"
                       @cancel="chooseGender = false"
                       @confirm="confirmGender"
+                    />
+                  </van-popup>
+                  <van-field
+                    readonly
+                    clickable
+                    :value="pickerText.nation"
+                    label="民族："
+                    input-align="right"
+                    placeholder="请选择"
+                    right-icon="arrow-down"
+                    @click="chooseNation = true"
+                    error-message-align="right"
+                    :rules="rules.nation"/>
+                  <van-popup v-model="chooseNation" round position="bottom" safe-area-inset-bottom>
+                    <van-picker
+                      title="选择民族"
+                      show-toolbar
+                      :columns="nations"
+                      @cancel="chooseNation = false"
+                      @confirm="confirmNation"
                     />
                   </van-popup>
                 </van-cell-group>
@@ -552,14 +572,19 @@
 import { Notify, Toast, Dialog } from 'vant';
 import uploaderImg from './assets/images/uploader@2x.png'
 import successImg from './assets/images/success@2x.png'
+import nations from './utils/nations'
 export default {
   data() {
     return {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 4,
+        current: 1,
         total: 4,
+      },
+      pickerText: { // picker展示的文本
+        gender: '',
+        nation: '',
       },
       radio: { // 单选 class
         active: 'radio-icon-normal radio-icon-active',
@@ -576,6 +601,8 @@ export default {
         maxDate: new Date(2025, 10, 1),
         currentDate: new Date(2000, 0, 1),
       },
+      chooseNation: false,
+      nations: nations,
       emergentContact:[ // 紧急联系人
         {
           name: '',
@@ -605,6 +632,7 @@ export default {
         id: '',
         name: '',
         gender: '',
+        nation: '',
         age: null,
         education: '', // 学历
         birthday: '',
@@ -634,6 +662,9 @@ export default {
         ],
         gender: [
           { required: true, message: '请选择性别！' }
+        ],
+        nation: [
+          { required: true, message: '请选择民族！' }
         ],
         age: [
           {required: true, message: '请填写年龄！'},
@@ -752,7 +783,8 @@ export default {
     },
     // 选择性别
     confirmGender(gender) {
-      this.form.gender = gender.text
+      this.form.gender = gender.value
+      this.pickerText.gender = gender.text
       this.chooseGender = false
     },
     // 选择出生日期
@@ -760,6 +792,12 @@ export default {
       console.log(date);
       this.form.birthday = this.handleDate(date)
       this.chooseBirthday = false
+    },
+    // 选择民族
+    confirmNation(nation) {
+      this.form.nation = nation.value
+      this.pickerText.nation = nation.text
+      this.chooseNation = false
     },
     // 添加紧急联系人
     addEmergentContact() {
