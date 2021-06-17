@@ -80,3 +80,6 @@
 .van-hairline--top::after {
   border-top-width: 0;
 }
+.van-loading__spinner--circular {
+  color: #F25314;
+}

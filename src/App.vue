@@ -558,7 +558,7 @@ export default {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 1,
+        current: 4,
         total: 4,
       },
       radio: { // 单选 class
@@ -890,31 +890,43 @@ export default {
 
     // 提交
     submit() {
-      // 签名检查
-      const check = this.checkEsign()
-      check.then(res => {
-        console.log(res);
+      // 验证表单
+      this.$refs.form.validate()
+      .then(res => {
+        // 签名检查
+        const check = this.checkEsign()
+        check.then(res => {
+          const toast = Toast.loading({
+            duration: 0, // 持续展示 toast
+            forbidClick: true,
+            message: '提交中',
+            overlay: true,
+            className: 'customToast'
+          })
+          // 请求
+          this.submitAction()
+          .then((res) => {
+            console.log(res);
+            toast.message = '提交成功!'
+            toast.icon = successImg
+            setTimeout(toast.clear, 2000);
+          })
+        })
+        .catch(err => {
+          Notify({ type: 'danger', message: '您尚未签名！' });
+        })
       })
       .catch(err => {
-        console.log(err);
+        Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
       })
-      console.log(check);
-      // 验证
-      // this.$refs.form.validate()
-      // .then(res => {
-      //   console.log(res);
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // })
-      // Toast({
-      //   message: '提交成功',
-      //   icon: successImg,
-      //   forbidClick: true,
-      //   overlay: true,
-      //   className: 'customToast'
-      // });
     },
+    submitAction() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('success')
+        }, 3000);
+      })
+    }
 
   },
 }
