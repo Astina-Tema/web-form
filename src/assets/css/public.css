@@ -23,7 +23,10 @@
   padding: 0 1.2rem;
 }
 .van-button--default {
-  border: 1px solid #000;
+  border: 1px solid #555;
+}
+.van-button::before {
+  border-color: #555
 }
 /* 单选 */
 .van-radio__icon {
@@ -34,7 +37,11 @@
   margin-bottom: 0.24rem;
 }
 .van-field__label {
-  width: 2.2rem;
+  /* width: 2.6rem; */
+  white-space: nowrap;
+}
+.van-field--min-height .van-field__control {
+  font-weight: bold;
 }
 .base-info-avatar .van-field__label span {
   display: inline-block;
@@ -46,4 +53,30 @@
 .customToast {
   background: #fff;
   color: #F25314;
+}
+.van-dialog__footer {
+  padding: 0 0.46rem 0.38rem;
+  justify-content: space-between;
+}
+.van-dialog__footer .van-dialog__cancel {
+  background: #CCC9CD;
+  margin-right: 0.3rem;
+}
+.van-dialog__footer .van-dialog__confirm {
+  background: #F05415;
+  color: #fff;
+}
+.van-dialog__confirm, .van-dialog__cancel {
+  border: none;
+  width: 2.2rem;
+  /* webkit-box-flex: 0;  */
+  /* -webkit-flex: 0; */
+  /* flex: 0;
+  flex-grow: 0; */
+}
+.van-dialog__message {
+  font-size: 0.32rem;
+}
+.van-hairline--top::after {
+  border-top-width: 0;
 }

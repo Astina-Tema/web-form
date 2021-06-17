@@ -42,6 +42,7 @@
                   <van-field
                     v-model="form.id"
                     label="学号："
+                    type="digit"
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
@@ -64,8 +65,9 @@
                     @click="chooseGender = true"
                     error-message-align="right"
                     :rules="rules.gender"/>
-                  <van-popup v-model="chooseGender" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                  <van-popup v-model="chooseGender" round position="bottom" safe-area-inset-bottom>
                     <van-picker
+                      title="选择性别"
                       show-toolbar
                       :columns="genders"
                       @cancel="chooseGender = false"
@@ -144,7 +146,7 @@
                     v-model="form.tel"
                     label="电话号码："
                     input-align="right"
-                    type="tel"
+                    type="digit"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.tel"/>
@@ -160,6 +162,7 @@
                     label="邮编："
                     input-align="right"
                     placeholder="请填写"
+                    type="digit"
                     error-message-align="right"
                     :rules="rules.postcode"/>
                 </van-cell-group>
@@ -174,13 +177,13 @@
               <van-field name="radio" class="no-border" :rules="rules.residenceSituation">
                 <template #input>
                   <van-radio-group v-model="form.residenceSituation" direction="horizontal">
-                    <van-radio name="1">
+                    <van-radio name="城镇">
                       城镇
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="农户">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -193,13 +196,13 @@
               <van-field name="radio" class="no-border" :rules="rules.medicalHistory">
                 <template #input>
                   <van-radio-group v-model="form.medicalHistory" direction="horizontal">
-                    <van-radio name="1">
+                    <van-radio name="是">
                       是
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="否">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -212,13 +215,13 @@
               <van-field name="radio" class="no-border" :rules="rules.jobSituation">
                 <template #input>
                   <van-radio-group v-model="form.jobSituation" direction="horizontal">
-                    <van-radio name="1">
+                    <van-radio name="是">
                       是
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="否">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -231,13 +234,13 @@
               <van-field name="radio" class="no-border" :rules="rules.needRecommend">
                 <template #input>
                   <van-radio-group v-model="form.needRecommend" direction="horizontal">
-                    <van-radio name="1">
+                    <van-radio name="是">
                       是
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="否">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -250,13 +253,13 @@
               <van-field name="radio" class="no-border" :rules="rules.trainWill">
                 <template #input>
                   <van-radio-group v-model="form.trainWill" direction="horizontal">
-                    <van-radio name="1">
+                    <van-radio name="是">
                       是
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="否">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -269,13 +272,13 @@
               <van-field name="radio" class="no-border" :rules="rules.hadTrain">
                 <template #input>
                   <van-radio-group v-model="form.hadTrain" direction="horizontal">
-                    <van-radio name="1">
+                    <van-radio name="是">
                       是
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="否">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -296,7 +299,7 @@
               <div class="emergent-contact" v-for=" (contact, index) in emergentContact" :key="index">
                 <h3 class="emergent-contact-title">
                   联系人{{index+1}}
-                  <van-icon v-if="index!==0" name="cross" @click="this.emergentContact.splice(index, 1)" />
+                  <van-icon v-if="index!==0" name="cross" @click="removeContact(index)" />
                 </h3>
                 <van-cell-group>
                   <van-field
@@ -316,6 +319,7 @@
                   <van-field
                     v-model="contact.tel"
                     label="联系电话："
+                    type="digit"
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
@@ -377,7 +381,7 @@
               <div class="emergent-contact" v-for=" (education, index) in educationExprience" :key="index">
                 <h3 class="emergent-contact-title">
                   教育经历{{index+1}}
-                  <van-icon v-if="index!==0" name="cross" @click="this.educationExprience.splice(index, 1)" />
+                  <van-icon v-if="index!==0" name="cross" @click="removeEducation(index)" />
                 </h3>
                 <van-cell-group>
                   <van-field
@@ -389,7 +393,7 @@
                     placeholder="请选择"
                     right-icon="arrow-down"
                     @click="chooseEducationDate(index)"/>
-                  <van-popup v-model="education.isShow" title="选择性别" round position="bottom" safe-area-inset-bottom>
+                  <van-popup v-model="education.isShow" round position="bottom" safe-area-inset-bottom>
                     <van-datetime-picker
                       v-model="date.currentDate"
                       type="date"
@@ -433,7 +437,7 @@
               <div class="emergent-contact" v-for=" (job, index) in jobExprience" :key="index">
                 <h3 class="emergent-contact-title">
                   工作经历{{index+1}}
-                  <van-icon v-if="index!==0" name="cross" @click="jobExprience.splice(index, 1)" />
+                  <van-icon v-if="index!==0" name="cross" @click="removeJobExprience(index)" />
                 </h3>
                 <van-cell-group>
                   <van-field
@@ -554,7 +558,7 @@ export default {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 4,
+        current: 1,
         total: 4,
       },
       radio: { // 单选 class
@@ -633,12 +637,6 @@ export default {
         ],
         age: [
           {required: true, message: '请填写年龄！'},
-          {
-            validator(age) {
-              return age >= 18 && age <= 80
-            },
-            message: '年龄有误！'
-          }
         ],
         education: [
           { required: true, message: '请填写学历！' }
@@ -654,7 +652,7 @@ export default {
           }
         ],
         residence: [
-          { required: true, message: '请选择出生日期！' }
+          { required: true, message: '请填写户口所在地！' }
         ],
         tel: [
           { required: true, message: '请填写手机号！' },
@@ -667,7 +665,11 @@ export default {
           { required: true, message: '请填写联系地址！' }
         ],
         postcode: [
-          { required: true, message: '请填写邮编！' }
+          { required: true, message: '请填写邮编！' },
+          {
+            pattern: /^[0-9]{6}$/,
+            message: '邮编格式有误！'
+          }
         ],
         residenceSituation: [
           { required: true, message: '请选择户籍情况！' }
@@ -768,6 +770,19 @@ export default {
       }
       this.emergentContact.push(emergentContact)
     },
+    // 移除紧急联系人
+    removeContact(index) {
+      console.log(index);
+      Dialog.confirm({
+        message: '确定删除该条信息？',
+      })
+      .then((res) => {
+        this.emergentContact.splice(index, 1)
+      })
+      .catch((err) => {
+        console.log('cancel');
+      })
+    },
     // 添加教育经历
     addEducationExprience() {
       const exprience = {
@@ -778,6 +793,18 @@ export default {
         major: '',
       }
       this.educationExprience.push(exprience)
+    },
+    // 移除教育经历
+    removeEducation(index) {
+      Dialog.confirm({
+        message: '确定删除该条信息？',
+      })
+      .then((res) => {
+        this.educationExprience.splice(index, 1)
+      })
+      .catch((err) => {
+        console.log('cancel');
+      })
     },
     // 选择教育经历时间
     chooseEducationDate(index) {
@@ -804,6 +831,18 @@ export default {
         quitReason: '',
       }
       this.jobExprience.push(exprience)
+    },
+    // 移除工作经历
+    removeJobExprience(index) {
+      Dialog.confirm({
+        message: '确定删除该条信息？',
+      })
+      .then((res) => {
+        this.jobExprience.splice(index, 1)
+      })
+      .catch((err) => {
+        console.log('cancel');
+      })
     },
     // 选择工作经历时间
     chooseJobDate(index) {
@@ -844,14 +883,22 @@ export default {
       const date = new Date(val)
       return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
     },
+    // 签名检查
+    checkEsign() {
+      return this.$refs.esign.generate()
+    },
 
     // 提交
     submit() {
-      // 签名
-      // this.$refs.esign.generate()
-      // .then((res) => {
-      //   console.log(res);
-      // })
+      // 签名检查
+      const check = this.checkEsign()
+      check.then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      console.log(check);
       // 验证
       // this.$refs.form.validate()
       // .then(res => {
@@ -860,13 +907,13 @@ export default {
       // .catch(err => {
       //   console.log(err);
       // })
-      Toast({
-        message: '提交成功',
-        icon: successImg,
-        forbidClick: true,
-        overlay: true,
-        className: 'customToast'
-      });
+      // Toast({
+      //   message: '提交成功',
+      //   icon: successImg,
+      //   forbidClick: true,
+      //   overlay: true,
+      //   className: 'customToast'
+      // });
     },
 
   },
