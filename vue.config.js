@@ -10,10 +10,11 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        // target: 'http://192.168.5.160/WS/ws/Ws.asmx',
+        target: 'http://192.168.5.160/AstinaWS/astinaws.asmx',
         changeOrigin: true,
         pathRewrite:{
-          '^/api':'http://localhost:3000'
+          '^/api':''
         }
       },
     },

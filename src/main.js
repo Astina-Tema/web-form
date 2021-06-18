@@ -22,6 +22,8 @@ import {
 Vue.use(vueEsign)
 Vue.config.productionTip = false
 
+console.log(process.env.VUE_APP_BASE_API);
+
 new Vue({
   render: h => h(App),
 }).$mount('#app')

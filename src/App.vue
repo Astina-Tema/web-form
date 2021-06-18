@@ -26,18 +26,18 @@
           <!-- 基本信息 -->
             <div class="form-base wrap">
               <h2 class="base-info-header">基本信息</h2>
-                <div class="base-info-avatar">
+                <!-- <div class="base-info-avatar">
                   <van-field name="uploader" label="照片：(选填)" class="no-border" input-align="right">
                     <template #input>
-                      <van-uploader :after-read="afterRead" :max-count="1" v-model="fileList"  preview-size="1.1rem">
+                      <van-uploader capture="camera" :after-read="afterRead" :max-count="1" v-model="fileList"  preview-size="1.1rem">
                         <div class="avatar-uploader">
                           <van-image fit="contain" :src="avatar" />
                         </div>
                       </van-uploader>
                     </template>
                   </van-field>
-                </div>
-                <van-divider :style="{ borderColor: '#E1E1E1' }" />
+                </div> -->
+                <van-divider :style="{ borderColor: 'transparent' }" />
                 <van-cell-group>
                   <van-field
                     v-model="form.id"
@@ -111,7 +111,7 @@
                   error-message-align="right"
                   :rules="rules.age"/>
                 <van-field
-                  v-model="form.education"
+                  v-model="form.HighestEducation"
                   label="最高学历："
                   input-align="right"
                   placeholder="请填写"
@@ -140,7 +140,7 @@
                   />
                 </van-popup>
                 <van-field
-                  v-model="form.IDNumber"
+                  v-model="form.GovernmentIDNumber"
                   label="身份证号码："
                   type="digit"
                   input-align="right"
@@ -163,7 +163,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
                 <van-cell-group>
                   <van-field
-                    v-model="form.tel"
+                    v-model="form.Mobile"
                     label="电话号码："
                     input-align="right"
                     type="digit"
@@ -178,7 +178,7 @@
                     error-message-align="right"
                     :rules="rules.address"/>
                   <van-field
-                    v-model="form.postcode"
+                    v-model="form.PostCode"
                     label="邮编："
                     input-align="right"
                     placeholder="请填写"
@@ -196,7 +196,7 @@
               <h3 class="radio-title">户籍情况：</h3>
               <van-field name="radio" class="no-border" :rules="rules.residenceSituation">
                 <template #input>
-                  <van-radio-group v-model="form.residenceSituation" direction="horizontal">
+                  <van-radio-group v-model="form.ResidenceType" direction="horizontal">
                     <van-radio name="城镇">
                       城镇
                       <template #icon="props">
@@ -215,7 +215,7 @@
               <h3 class="radio-title">家庭病史：</h3>
               <van-field name="radio" class="no-border" :rules="rules.medicalHistory">
                 <template #input>
-                  <van-radio-group v-model="form.medicalHistory" direction="horizontal">
+                  <van-radio-group v-model="form.MedicalHistory" direction="horizontal">
                     <van-radio name="是">
                       是
                       <template #icon="props">
@@ -234,7 +234,7 @@
               <h3 class="radio-title">在岗情况：</h3>
               <van-field name="radio" class="no-border" :rules="rules.jobSituation">
                 <template #input>
-                  <van-radio-group v-model="form.jobSituation" direction="horizontal">
+                  <van-radio-group v-model="form.OnTheJob" direction="horizontal">
                     <van-radio name="是">
                       是
                       <template #icon="props">
@@ -253,7 +253,7 @@
               <h3 class="radio-title">是否需要推荐就业：</h3>
               <van-field name="radio" class="no-border" :rules="rules.needRecommend">
                 <template #input>
-                  <van-radio-group v-model="form.needRecommend" direction="horizontal">
+                  <van-radio-group v-model="form.RecommendEmployment" direction="horizontal">
                     <van-radio name="是">
                       是
                       <template #icon="props">
@@ -272,7 +272,7 @@
               <h3 class="radio-title">培训意愿：</h3>
               <van-field name="radio" class="no-border" :rules="rules.trainWill">
                 <template #input>
-                  <van-radio-group v-model="form.trainWill" direction="horizontal">
+                  <van-radio-group v-model="form.Trianning" direction="horizontal">
                     <van-radio name="是">
                       是
                       <template #icon="props">
@@ -291,7 +291,7 @@
               <h3 class="radio-title">是否参加过技能培训：</h3>
               <van-field name="radio" class="no-border" :rules="rules.hadTrain">
                 <template #input>
-                  <van-radio-group v-model="form.hadTrain" direction="horizontal">
+                  <van-radio-group v-model="form.ParticipatedSkillsTraining" direction="horizontal">
                     <van-radio name="是">
                       是
                       <template #icon="props">
@@ -354,32 +354,32 @@
               <!-- <van-divider :style="{ borderColor: 'transparent' }" /> -->
               <van-field name="radio" class="no-border sign-up-method" :rules="rules.signUpMethod">
                 <template #input>
-                  <van-radio-group v-model="form.signUpMethod" direction="horizontal">
-                    <van-radio name="1">
+                  <van-radio-group v-model="form.RegistrationChannel" direction="horizontal">
+                    <van-radio name="内部员工">
                       内部员工
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                     </van-radio>
-                    <van-radio name="2">
+                    <van-radio name="公众号">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                       公众号
                     </van-radio>
-                    <van-radio name="3">
+                    <van-radio name="招聘">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                       招聘
                     </van-radio>
-                    <van-radio name="4">
+                    <van-radio name="内部推荐">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
                       内部推荐
                     </van-radio>
-                    <van-radio name="5">
+                    <van-radio name="其他">
                       <template #icon="props">
                         <span :class="props.checked ? radio.active : radio.inactive" />
                       </template>
@@ -512,7 +512,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
                 class="text-area-bg no-border"
-                v-model="form.skills"
+                v-model="form.PersonalSkills"
                 type="textarea"
                 placeholder="请填写……"
                 show-word-limit
@@ -553,7 +553,7 @@
         <h2 class="base-info-header">本人签字</h2>
         <div class="signature-place">
           <span class="reset-signature" @click="resetSignature">清除文字</span>
-          <vue-esign ref="esign" :width="800" :height="520" />
+          <vue-esign ref="esign" :isCrop="true" :width="800" :height="520" />
         </div>
       </div>
     </div>
@@ -572,14 +572,15 @@
 import { Notify, Toast, Dialog } from 'vant';
 import uploaderImg from './assets/images/uploader@2x.png'
 import successImg from './assets/images/success@2x.png'
-import nations from './utils/nations'
+import { nations, UUID } from './utils/common'
+import { upLoadImg } from './api'
 export default {
   data() {
     return {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 1,
+        current: 4,
         total: 4,
       },
       pickerText: { // picker展示的文本
@@ -592,8 +593,8 @@ export default {
       },
       chooseGender: false,
       genders: [ // 性别
-        {text: '男', value: 0},
-        {text: '女', value: 1}
+        {text: '男', value: 1},
+        {text: '女', value: 2}
       ],
       chooseBirthday: false,
       date: { // 日期
@@ -631,24 +632,24 @@ export default {
       form: { // 表单
         id: '',
         name: '',
-        gender: '',
-        nation: '',
+        Gender: '',
+        EthnicityID: '',
         age: null,
-        education: '', // 学历
+        HighestEducation: '', // 最高学历
         birthday: '',
-        IDNumber: '', // 身份证号
+        GovernmentIDNumber: '', // 身份证号
         residence: '', // 户口所在地
-        tel: '',
+        Mobile: '', // 电话
         address: '', // 联系地址
-        postcode: '', // 邮编
-        residenceSituation: '', // 户籍情况
-        medicalHistory: '', // 家庭病史
-        jobSituation: '', // 在岗情况
-        needRecommend: '', // 是否需要推荐就业
-        trainWill: '', // 培训意愿
-        hadTrain: '', // 是否参加过技能培训
-        signUpMethod: '', // 报名渠道
-        skills: '',
+        PostCode: '', // 邮编
+        ResidenceType: '', // 户籍情况
+        MedicalHistory: '', // 家庭病史
+        OnTheJob: '', // 在岗情况
+        RecommendEmployment: '', // 是否需要推荐就业
+        Trianning: '', // 培训意愿
+        ParticipatedSkillsTraining: '', // 是否参加过技能培训
+        RegistrationChannel: '', // 报名渠道
+        PersonalSkills: '', // 个人技能
         specialty: '', // 特长
         selfDescription: '',
       },
@@ -670,7 +671,7 @@ export default {
           {required: true, message: '请填写年龄！'},
         ],
         education: [
-          { required: true, message: '请填写学历！' }
+          { required: true, message: '请填写最高学历！' }
         ],
         birthday: [
           { required: true, message: '请选择出生日期！' }
@@ -768,7 +769,6 @@ export default {
         ],
 
       },
-      
     }
   },
   mounted() {
@@ -778,12 +778,23 @@ export default {
     // 头像
     afterRead(file) {
       // 此时可以自行将文件上传至服务器
-      console.log(file.file);
-      console.log(this.fileList);
+      const photo = this.fileList[0].content;
+      console.log(photo.split(',')[1]);
+      upLoadImg(UUID(), photo.split(',')[1])
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    },
+    // 删除确认框
+    removeConfirm() {
+      return Dialog.confirm({  message: '确定删除该条信息？' })
     },
     // 选择性别
     confirmGender(gender) {
-      this.form.gender = gender.value
+      this.form.Gender = gender.value
       this.pickerText.gender = gender.text
       this.chooseGender = false
     },
@@ -795,7 +806,7 @@ export default {
     },
     // 选择民族
     confirmNation(nation) {
-      this.form.nation = nation.value
+      this.form.EthnicityID = nation.value
       this.pickerText.nation = nation.text
       this.chooseNation = false
     },
@@ -811,9 +822,7 @@ export default {
     // 移除紧急联系人
     removeContact(index) {
       console.log(index);
-      Dialog.confirm({
-        message: '确定删除该条信息？',
-      })
+      this.removeConfirm()
       .then((res) => {
         this.emergentContact.splice(index, 1)
       })
@@ -834,9 +843,7 @@ export default {
     },
     // 移除教育经历
     removeEducation(index) {
-      Dialog.confirm({
-        message: '确定删除该条信息？',
-      })
+      this.removeConfirm()
       .then((res) => {
         this.educationExprience.splice(index, 1)
       })
@@ -872,9 +879,7 @@ export default {
     },
     // 移除工作经历
     removeJobExprience(index) {
-      Dialog.confirm({
-        message: '确定删除该条信息？',
-      })
+      this.removeConfirm()
       .then((res) => {
         this.jobExprience.splice(index, 1)
       })
@@ -925,38 +930,52 @@ export default {
     checkEsign() {
       return this.$refs.esign.generate()
     },
+    // toast loading
+    loadingToast(message) {
+      return Toast.loading({
+        duration: 0, // 持续展示 toast
+        forbidClick: true,
+        message,
+        overlay: true,
+        className: 'customToast'
+      })
+    },
 
     // 提交
-    submit() {
-      // 验证表单
-      this.$refs.form.validate()
+    async submit() {
+      const signature = await this.checkEsign()
+      const uuid = UUID()
+      console.log(uuid);
+      upLoadImg(uuid, signature.split(',')[1])
       .then(res => {
-        // 签名检查
-        const check = this.checkEsign()
-        check.then(res => {
-          const toast = Toast.loading({
-            duration: 0, // 持续展示 toast
-            forbidClick: true,
-            message: '提交中',
-            overlay: true,
-            className: 'customToast'
-          })
-          // 请求
-          this.submitAction()
-          .then((res) => {
-            console.log(res);
-            toast.message = '提交成功!'
-            toast.icon = successImg
-            setTimeout(toast.clear, 2000);
-          })
-        })
-        .catch(err => {
-          Notify({ type: 'danger', message: '您尚未签名！' });
-        })
+        console.log(res);
       })
       .catch(err => {
-        Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
+        console.error(err);
       })
+      // // 验证表单
+      // this.$refs.form.validate()
+      // .then(res => {
+      //   // 签名检查
+      //   const check = this.checkEsign()
+      //   check.then(res => {
+      //     const toast = loadingToast('提交中')
+      //     // 请求
+      //     this.submitAction()
+      //     .then((res) => {
+      //       console.log(res);
+      //       toast.message = '提交成功!'
+      //       toast.icon = successImg
+      //       setTimeout(toast.clear, 2000);
+      //     })
+      //   })
+      //   .catch(err => {
+      //     Notify({ type: 'danger', message: '您尚未签名！' });
+      //   })
+      // })
+      // .catch(err => {
+      //   Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
+      // })
     },
     submitAction() {
       return new Promise((resolve, reject) => {
