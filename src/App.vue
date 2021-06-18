@@ -413,7 +413,7 @@
                     placeholder="请选择"
                     right-icon="arrow-down"
                     @click="chooseEducationDate(index)"/>
-                  <van-popup v-model="education.isShow" round position="bottom" safe-area-inset-bottom>
+                  <van-popup v-model="education.isShowDate" round position="bottom" safe-area-inset-bottom>
                     <van-datetime-picker
                       v-model="date.currentDate"
                       type="date"
@@ -430,12 +430,25 @@
                     input-align="right"
                     placeholder="请填写"/>
                   <van-field
-                    v-model="education.education"
+                    readonly
+                    clickable
+                    :value="education.education"
                     label="学历："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
-                    :rules="rules.educationExprience.education"/>
+                    :rules="rules.educationExprience.education"
+                    right-icon="arrow-down"
+                    @click="chooseSchoolType(index)"/>
+                  <van-popup v-model="education.isShowSchoolType" round position="bottom" safe-area-inset-bottom>
+                    <van-picker
+                      title="选择民族"
+                      show-toolbar
+                      :columns="schoolType"
+                      @cancel="chooseSchoolType = false"
+                      @confirm="confirmSchoolType($event,index)"
+                    />
+                    </van-popup>
                   <van-field
                     v-model="education.major"
                     label="专业："
@@ -532,7 +545,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
                 class="text-area-bg no-border"
-                v-model="form.selfDescription"
+                v-model="form.PersonalDescription"
                 type="textarea"
                 placeholder="请填写……"
                 show-word-limit
@@ -572,8 +585,8 @@
 import { Notify, Toast, Dialog } from 'vant';
 import uploaderImg from './assets/images/uploader@2x.png'
 import successImg from './assets/images/success@2x.png'
-import { nations, UUID } from './utils/common'
-import { upLoadImg } from './api'
+import { nations, schoolType, UUID } from './utils/common'
+import { upLoadImg , test} from './api'
 export default {
   data() {
     return {
@@ -586,6 +599,7 @@ export default {
       pickerText: { // picker展示的文本
         gender: '',
         nation: '',
+        schoolType: '',
       },
       radio: { // 单选 class
         active: 'radio-icon-normal radio-icon-active',
@@ -604,6 +618,7 @@ export default {
       },
       chooseNation: false,
       nations: nations,
+      schoolType: schoolType,
       emergentContact:[ // 紧急联系人
         {
           name: '',
@@ -613,7 +628,8 @@ export default {
       ],
       educationExprience: [ // 教育经历
         {
-          isShow: false,
+          isShowDate: false,
+          isShowSchoolType: false,
           date: '',
           school: '',
           education: '',
@@ -651,7 +667,7 @@ export default {
         RegistrationChannel: '', // 报名渠道
         PersonalSkills: '', // 个人技能
         specialty: '', // 特长
-        selfDescription: '',
+        PersonalDescription: '',
       },
       // 表单验证
       rules: {
@@ -772,7 +788,10 @@ export default {
     }
   },
   mounted() {
-
+    test()
+    .then((res) => {
+      console.log(res);
+    })
   },
   methods: {
     // 头像
@@ -810,6 +829,16 @@ export default {
       this.pickerText.nation = nation.text
       this.chooseNation = false
     },
+    // 选择学历
+    chooseSchoolType(index) {
+      this.educationExprience[index].isShowSchoolType = true
+    },
+    // 
+    confirmSchoolType(schoolType, index) {
+      this.pickerText.schoolType = schoolType.text
+      this.educationExprience[index].SchoolTypeID = schoolType.value
+      this.educationExprience[index].isShowSchoolType = false
+    },
     // 添加紧急联系人
     addEmergentContact() {
       const emergentContact = {
@@ -833,7 +862,8 @@ export default {
     // 添加教育经历
     addEducationExprience() {
       const exprience = {
-        isShow: false,
+        isShowDate: false,
+        isShowSchoolType: false,
         date: '',
         school: '',
         education: '',
@@ -854,17 +884,17 @@ export default {
     // 选择教育经历时间
     chooseEducationDate(index) {
       console.log(index);
-      this.educationExprience[index].isShow = true
+      this.educationExprience[index].isShowDate = true
     },
     // 关闭教育经历时间
     closeEducationDate(index) {
-      this.educationExprience[index].isShow = false
+      this.educationExprience[index].isShowDate = false
     },
     // 选择教育经历时间
     confirmEducationDate(date,index) {
       this.educationExprience[index].date = this.handleDate(date)
       // this.$set(this.educationExprience[index], 'date', this.handleDate(date))
-      this.educationExprience[index].isShow = false
+      this.educationExprience[index].isShowDate = false
     },
     // 添加工作经历
     addJobExprience() {

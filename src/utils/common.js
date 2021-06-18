@@ -12,6 +12,19 @@ export function UUID () {
   return  uuid;
 }
 
+// 学历
+export const schoolType = [
+  {value: 1, text: '高中'},
+  {value: 2, text: '初中'},
+  {value: 3, text: '职校'},
+  {value: 4, text: '小学'},
+  {value: 5, text: '本科'},
+  {value: 7, text: '研究生'},
+  {value: 8, text: '博士'},
+  {value: 9, text: '中专'},
+  {value: 10, text: '大专'},
+]
+// 民族
 export const nations = [
   { value: 1, text: '汉族' },
   { value: 2, text: '蒙古族' },
