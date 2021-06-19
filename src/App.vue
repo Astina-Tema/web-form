@@ -48,7 +48,7 @@
                     error-message-align="right"
                     :rules="rules.id"/>
                   <van-field
-                    v-model="form.name"
+                    v-model="form.CompanyName"
                     label="姓名："
                     input-align="right"
                     placeholder="请填写"
@@ -123,7 +123,7 @@
                   placeholder="请选择"
                   right-icon="arrow-down"
                   @click="chooseBirthday = true"
-                  :value="form.birthday"
+                  :value="form.ContactBirthday"
                   label="出生日期："
                   input-align="right"
                   error-message-align="right"
@@ -148,7 +148,7 @@
                   error-message-align="right"
                   :rules="rules.IDNumber"/>
                 <van-field
-                  v-model="form.residence"
+                  v-model="form.RegisteredPermanentAddressLocus"
                   label="户口所在地："
                   input-align="right"
                   placeholder="请填写"
@@ -171,7 +171,7 @@
                     error-message-align="right"
                     :rules="rules.tel"/>
                   <van-field
-                    v-model="form.address"
+                    v-model="form.ContactAddress"
                     label="联系地址："
                     input-align="right"
                     placeholder="请填写"
@@ -323,21 +323,21 @@
                 </h3>
                 <van-cell-group>
                   <van-field
-                    v-model="contact.name"
+                    v-model="contact.CompanyName"
                     label="姓名："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.emergentContact.name"/>
                   <van-field
-                    v-model="contact.relationship"
+                    v-model="contact.RelationShip"
                     label="关系："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.emergentContact.relationship"/>
                   <van-field
-                    v-model="contact.tel"
+                    v-model="contact.Mobile"
                     label="联系电话："
                     type="digit"
                     input-align="right"
@@ -425,24 +425,24 @@
                     />
                   </van-popup>
                   <van-field
-                    v-model="education.school"
+                    v-model="education.SchoolName"
                     label="学校全称：(选填)"
                     input-align="right"
                     placeholder="请填写"/>
                   <van-field
                     readonly
                     clickable
-                    :value="education.education"
+                    :value="pickerText.schoolType"
                     label="学历："
                     input-align="right"
-                    placeholder="请填写"
+                    placeholder="请选择"
                     error-message-align="right"
                     :rules="rules.educationExprience.education"
                     right-icon="arrow-down"
                     @click="chooseSchoolType(index)"/>
                   <van-popup v-model="education.isShowSchoolType" round position="bottom" safe-area-inset-bottom>
                     <van-picker
-                      title="选择民族"
+                      title="选择学历"
                       show-toolbar
                       :columns="schoolType"
                       @cancel="chooseSchoolType = false"
@@ -450,7 +450,7 @@
                     />
                     </van-popup>
                   <van-field
-                    v-model="education.major"
+                    v-model="education.Major"
                     label="专业："
                     input-align="right"
                     placeholder="请填写"
@@ -494,21 +494,21 @@
                       @confirm="confirmJobDate($event,index)"/>
                   </van-popup>
                   <van-field
-                    v-model="job.company"
+                    v-model="job.Company"
                     label="工作单位："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.jobExprience.company"/>
                   <van-field
-                    v-model="job.position"
+                    v-model="job.WorkingTypeName"
                     label="职位："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.jobExprience.position"/>
                   <van-field
-                    v-model="job.quitReason"
+                    v-model="job.Reason"
                     label="离职原因："
                     input-align="right"
                     placeholder="请填写"
@@ -535,7 +535,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
               class="text-area-bg no-border"
-                v-model="form.specialty"
+                v-model="form.Specialty"
                 type="textarea"
                 placeholder="请填写……"
                 show-word-limit
@@ -593,7 +593,7 @@ export default {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 4,
+        current: 3,
         total: 4,
       },
       pickerText: { // picker展示的文本
@@ -621,9 +621,9 @@ export default {
       schoolType: schoolType,
       emergentContact:[ // 紧急联系人
         {
-          name: '',
-          relationship: '',
-          tel: '',
+          CompanyName: '',
+          RelationShip: '',
+          Mobile: '',
         }
       ],
       educationExprience: [ // 教育经历
@@ -631,32 +631,32 @@ export default {
           isShowDate: false,
           isShowSchoolType: false,
           date: '',
-          school: '',
-          education: '',
-          major: '',
+          SchoolName: '',
+          SchoolTypeID: '',
+          Major: '',
         }
       ],
       jobExprience: [
         {
           isShow: false,
           date: '',
-          company: '',
-          position: '',
-          quitReason: '',
+          Company: '',
+          WorkingTypeName: '',
+          Reason: '',
         }
       ],
       form: { // 表单
         id: '',
-        name: '',
+        CompanyName: '',
         Gender: '',
         EthnicityID: '',
         age: null,
         HighestEducation: '', // 最高学历
-        birthday: '',
+        ContactBirthday: '',
         GovernmentIDNumber: '', // 身份证号
-        residence: '', // 户口所在地
+        RegisteredPermanentAddressLocus: '', // 户口所在地
         Mobile: '', // 电话
-        address: '', // 联系地址
+        ContactAddress: '', // 联系地址
         PostCode: '', // 邮编
         ResidenceType: '', // 户籍情况
         MedicalHistory: '', // 家庭病史
@@ -666,7 +666,7 @@ export default {
         ParticipatedSkillsTraining: '', // 是否参加过技能培训
         RegistrationChannel: '', // 报名渠道
         PersonalSkills: '', // 个人技能
-        specialty: '', // 特长
+        Specialty: '', // 特长
         PersonalDescription: '',
       },
       // 表单验证
@@ -788,10 +788,7 @@ export default {
     }
   },
   mounted() {
-    test()
-    .then((res) => {
-      console.log(res);
-    })
+
   },
   methods: {
     // 头像
@@ -819,8 +816,8 @@ export default {
     },
     // 选择出生日期
     confirmBirthday(date) {
-      console.log(date);
-      this.form.birthday = this.handleDate(date)
+      // console.log(date);
+      this.form.ContactBirthday = this.handleDate(date)
       this.chooseBirthday = false
     },
     // 选择民族
@@ -969,6 +966,10 @@ export default {
         overlay: true,
         className: 'customToast'
       })
+    },
+    // 追加 numID 并且 stringify
+    handleStringify(arr) {
+      return JSON.stringify(arr.map((value, index) => ({...value, numID: index+1})))
     },
 
     // 提交
