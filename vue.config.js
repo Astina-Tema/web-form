@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: '../pension-form/',
   pages: {
     index: {
       // page 的入口
