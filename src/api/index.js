@@ -49,12 +49,13 @@ export function upLoadImg (UUID, Photo) {
  * @param {Object} data -- 表单数据
  */
 export function submitForm(data) {
-  return request.post('/path', {
+  // console.log(data);
+  return request.post('/WSTJWeb', {
     reg: encrypt({
       P: {
         ...data
       },
-      SP: 'sp'
+      SP: 'WEb_ContactsResigter'
     }),
     t: 'JSON'
   });

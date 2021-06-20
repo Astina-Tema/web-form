@@ -39,16 +39,15 @@
                 </div> -->
                 <van-divider :style="{ borderColor: 'transparent' }" />
                 <van-cell-group>
-                  <van-field
+                  <!-- <van-field
                     v-model="form.id"
                     label="学号："
-                    type="digit"
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
-                    :rules="rules.id"/>
+                    :rules="rules.id"/> -->
                   <van-field
-                    v-model="form.name"
+                    v-model="form.CompanyName"
                     label="姓名："
                     input-align="right"
                     placeholder="请填写"
@@ -123,7 +122,7 @@
                   placeholder="请选择"
                   right-icon="arrow-down"
                   @click="chooseBirthday = true"
-                  :value="form.birthday"
+                  :value="form.ContactBirthday"
                   label="出生日期："
                   input-align="right"
                   error-message-align="right"
@@ -142,13 +141,12 @@
                 <van-field
                   v-model="form.GovernmentIDNumber"
                   label="身份证号码："
-                  type="digit"
                   input-align="right"
                   placeholder="请填写"
                   error-message-align="right"
                   :rules="rules.IDNumber"/>
                 <van-field
-                  v-model="form.residence"
+                  v-model="form.RegisteredPermanentAddressLocus"
                   label="户口所在地："
                   input-align="right"
                   placeholder="请填写"
@@ -171,7 +169,7 @@
                     error-message-align="right"
                     :rules="rules.tel"/>
                   <van-field
-                    v-model="form.address"
+                    v-model="form.ContactAddress"
                     label="联系地址："
                     input-align="right"
                     placeholder="请填写"
@@ -323,21 +321,21 @@
                 </h3>
                 <van-cell-group>
                   <van-field
-                    v-model="contact.name"
+                    v-model="contact.CompanyName"
                     label="姓名："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.emergentContact.name"/>
                   <van-field
-                    v-model="contact.relationship"
+                    v-model="contact.RelationShip"
                     label="关系："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.emergentContact.relationship"/>
                   <van-field
-                    v-model="contact.tel"
+                    v-model="contact.Mobile"
                     label="联系电话："
                     type="digit"
                     input-align="right"
@@ -407,42 +405,62 @@
                   <van-field
                     readonly
                     clickable
-                    :value="education.date"
+                    :value="education.showDate"
                     label="时间：(选填)"
                     input-align="right"
                     placeholder="请选择"
                     right-icon="arrow-down"
-                    @click="chooseEducationDate(index)"/>
-                  <van-popup v-model="education.isShowDate" round position="bottom" safe-area-inset-bottom>
+                    @click="chooseEducationDateStart(index)"/>
+                    <!-- <van-calendar
+                      v-model="education.isShowDate"
+                      @confirm="confirmEducationDate($event,index)"
+                      type="range"
+                      color="#ED5D18"
+                      :default-date="[new Date(2000,1,1)]"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                    /> -->
+                  <van-popup v-model="education.isShowDateStart" round position="bottom" safe-area-inset-bottom>
                     <van-datetime-picker
                       v-model="date.currentDate"
                       type="date"
-                      title="选择年月日"
+                      title="选择起始年月日"
                       :min-date="date.minDate"
                       :max-date="date.maxDate"
-                      @cancel="closeEducationDate(index)"
-                      @confirm="confirmEducationDate($event,index)"
+                      @cancel="closeEducationDateStart(index)"
+                      @confirm="confirmEducationDateStart($event,index)"
+                    />
+                  </van-popup>
+                  <van-popup v-model="education.isShowDateEnd" round position="bottom" safe-area-inset-bottom>
+                    <van-datetime-picker
+                      v-model="date.currentDate"
+                      type="date"
+                      title="选择结束年月日"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                      @cancel="closeEducationDateEnd(index)"
+                      @confirm="confirmEducationDateEnd($event,index)"
                     />
                   </van-popup>
                   <van-field
-                    v-model="education.school"
+                    v-model="education.SchoolName"
                     label="学校全称：(选填)"
                     input-align="right"
                     placeholder="请填写"/>
                   <van-field
                     readonly
                     clickable
-                    :value="education.education"
+                    :value="education.showSchoolType"
                     label="学历："
                     input-align="right"
-                    placeholder="请填写"
+                    placeholder="请选择"
                     error-message-align="right"
                     :rules="rules.educationExprience.education"
                     right-icon="arrow-down"
                     @click="chooseSchoolType(index)"/>
                   <van-popup v-model="education.isShowSchoolType" round position="bottom" safe-area-inset-bottom>
                     <van-picker
-                      title="选择民族"
+                      title="选择学历"
                       show-toolbar
                       :columns="schoolType"
                       @cancel="chooseSchoolType = false"
@@ -450,7 +468,7 @@
                     />
                     </van-popup>
                   <van-field
-                    v-model="education.major"
+                    v-model="education.Major"
                     label="专业："
                     input-align="right"
                     placeholder="请填写"
@@ -476,14 +494,24 @@
                   <van-field
                     readonly
                     clickable
-                    :value="job.date"
+                    :value="job.showDate"
                     label="时间：(选填)"
                     input-align="right"
                     placeholder="请选择"
                     right-icon="arrow-down"
-                    @click="chooseJobDate(index)"
+                    @click="chooseJobDateStart(index)"
                     />
-                  <van-popup v-model="job.isShow" round position="bottom" safe-area-inset-bottom>
+                    <!-- <van-calendar
+                      v-model="job.isShowDate"
+                      @confirm="confirmJobDate($event,index)"
+                      type="range"
+                      color="#ED5D18"
+                      :default-date="[new Date(2000,1,1)]"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                    /> -->
+
+                  <!-- <van-popup v-model="job.isShow" round position="bottom" safe-area-inset-bottom>
                     <van-datetime-picker
                       v-model="date.currentDate"
                       type="date"
@@ -492,23 +520,45 @@
                       :max-date="date.maxDate"
                       @cancel="closeJobDate(index)"
                       @confirm="confirmJobDate($event,index)"/>
+                  </van-popup> -->
+                  <van-popup v-model="job.isShowDateStart" round position="bottom" safe-area-inset-bottom>
+                    <van-datetime-picker
+                      v-model="date.currentDate"
+                      type="date"
+                      title="选择起始年月日"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                      @cancel="closeJobDateStart(index)"
+                      @confirm="confirmJobDateStart($event,index)"
+                    />
+                  </van-popup>
+                  <van-popup v-model="job.isShowDateEnd" round position="bottom" safe-area-inset-bottom>
+                    <van-datetime-picker
+                      v-model="date.currentDate"
+                      type="date"
+                      title="选择结束年月日"
+                      :min-date="date.minDate"
+                      :max-date="date.maxDate"
+                      @cancel="closeJobDateEnd(index)"
+                      @confirm="confirmJobDateEnd($event,index)"
+                    />
                   </van-popup>
                   <van-field
-                    v-model="job.company"
+                    v-model="job.Company"
                     label="工作单位："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.jobExprience.company"/>
                   <van-field
-                    v-model="job.position"
+                    v-model="job.WorkingTypeName"
                     label="职位："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
                     :rules="rules.jobExprience.position"/>
                   <van-field
-                    v-model="job.quitReason"
+                    v-model="job.Reason"
                     label="离职原因："
                     input-align="right"
                     placeholder="请填写"
@@ -535,7 +585,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
               class="text-area-bg no-border"
-                v-model="form.specialty"
+                v-model="form.Specialty"
                 type="textarea"
                 placeholder="请填写……"
                 show-word-limit
@@ -586,20 +636,19 @@ import { Notify, Toast, Dialog } from 'vant';
 import uploaderImg from './assets/images/uploader@2x.png'
 import successImg from './assets/images/success@2x.png'
 import { nations, schoolType, UUID } from './utils/common'
-import { upLoadImg , test} from './api'
+import { upLoadImg , submitForm} from './api'
 export default {
   data() {
     return {
       avatar: uploaderImg,
       fileList: [],
       progress: { // 表单进度
-        current: 4,
+        current: 1,
         total: 4,
       },
       pickerText: { // picker展示的文本
         gender: '',
         nation: '',
-        schoolType: '',
       },
       radio: { // 单选 class
         active: 'radio-icon-normal radio-icon-active',
@@ -621,42 +670,49 @@ export default {
       schoolType: schoolType,
       emergentContact:[ // 紧急联系人
         {
-          name: '',
-          relationship: '',
-          tel: '',
+          CompanyName: '',
+          RelationShip: '',
+          Mobile: '',
         }
       ],
       educationExprience: [ // 教育经历
         {
-          isShowDate: false,
+          isShowDateStart: false,
+          isShowDateEnd: false,
           isShowSchoolType: false,
-          date: '',
-          school: '',
-          education: '',
-          major: '',
+          FromDate: '',
+          ToDate: '',
+          showDate: '', // 用于展示
+          showSchoolType: '', // 用于展示
+          SchoolName: '',
+          SchoolTypeID: '',
+          Major: '',
         }
       ],
       jobExprience: [
         {
-          isShow: false,
-          date: '',
-          company: '',
-          position: '',
-          quitReason: '',
+          isShowDateStart: false,
+          isShowDateEnd: false,
+          HireDate: '', // 开始时间
+          DismissDate: '', // 结束时间
+          showDate: '', // 用于展示
+          Company: '',
+          WorkingTypeName: '', // 职位
+          Reason: '',
         }
       ],
       form: { // 表单
         id: '',
-        name: '',
+        CompanyName: '',
         Gender: '',
         EthnicityID: '',
         age: null,
         HighestEducation: '', // 最高学历
-        birthday: '',
+        ContactBirthday: '',
         GovernmentIDNumber: '', // 身份证号
-        residence: '', // 户口所在地
+        RegisteredPermanentAddressLocus: '', // 户口所在地
         Mobile: '', // 电话
-        address: '', // 联系地址
+        ContactAddress: '', // 联系地址
         PostCode: '', // 邮编
         ResidenceType: '', // 户籍情况
         MedicalHistory: '', // 家庭病史
@@ -666,7 +722,7 @@ export default {
         ParticipatedSkillsTraining: '', // 是否参加过技能培训
         RegistrationChannel: '', // 报名渠道
         PersonalSkills: '', // 个人技能
-        specialty: '', // 特长
+        Specialty: '', // 特长
         PersonalDescription: '',
       },
       // 表单验证
@@ -788,10 +844,7 @@ export default {
     }
   },
   mounted() {
-    test()
-    .then((res) => {
-      console.log(res);
-    })
+    
   },
   methods: {
     // 头像
@@ -811,63 +864,67 @@ export default {
     removeConfirm() {
       return Dialog.confirm({  message: '确定删除该条信息？' })
     },
-    // 选择性别
+    // 确认性别
     confirmGender(gender) {
       this.form.Gender = gender.value
       this.pickerText.gender = gender.text
       this.chooseGender = false
     },
-    // 选择出生日期
+    // 确认出生日期
     confirmBirthday(date) {
-      console.log(date);
-      this.form.birthday = this.handleDate(date)
+      // console.log(date);
+      this.form.ContactBirthday = this.handleDate(date)
       this.chooseBirthday = false
     },
-    // 选择民族
+    // 确认民族
     confirmNation(nation) {
       this.form.EthnicityID = nation.value
       this.pickerText.nation = nation.text
       this.chooseNation = false
     },
-    // 选择学历
+    // 弹出学历选择
     chooseSchoolType(index) {
       this.educationExprience[index].isShowSchoolType = true
     },
-    // 
+    // 确认学历
     confirmSchoolType(schoolType, index) {
-      this.pickerText.schoolType = schoolType.text
+      this.educationExprience[index].showSchoolType = schoolType.text
       this.educationExprience[index].SchoolTypeID = schoolType.value
       this.educationExprience[index].isShowSchoolType = false
     },
     // 添加紧急联系人
     addEmergentContact() {
       const emergentContact = {
-        name: '',
-        relationship: '',
-        tel: '',
+        CompanyName: '',
+        RelationShip: '',
+        Mobile: '',
       }
       this.emergentContact.push(emergentContact)
     },
     // 移除紧急联系人
     removeContact(index) {
-      console.log(index);
+      // console.log(index);
       this.removeConfirm()
       .then((res) => {
         this.emergentContact.splice(index, 1)
       })
       .catch((err) => {
-        console.log('cancel');
+        // console.log('cancel');
       })
     },
     // 添加教育经历
     addEducationExprience() {
       const exprience = {
-        isShowDate: false,
+        isShowDateStart: false,
+        isShowDateEnd: false,
         isShowSchoolType: false,
-        date: '',
-        school: '',
-        education: '',
-        major: '',
+        showDate: '',
+        SchoolName: '',
+        SchoolTypeID: '',
+        Major: '',
+        FromDate: '',
+        ToDate: '',
+        showSchoolType: '',
       }
       this.educationExprience.push(exprience)
     },
@@ -878,32 +935,60 @@ export default {
         this.educationExprience.splice(index, 1)
       })
       .catch((err) => {
-        console.log('cancel');
+        // console.log('cancel');
       })
     },
-    // 选择教育经历时间
-    chooseEducationDate(index) {
-      console.log(index);
-      this.educationExprience[index].isShowDate = true
+    // 开始时间
+    // 弹出教育经历时间
+    chooseEducationDateStart(index) {
+      // console.log(index);
+      this.educationExprience[index].isShowDateStart = true
     },
     // 关闭教育经历时间
-    closeEducationDate(index) {
-      this.educationExprience[index].isShowDate = false
+    closeEducationDateStart(index) {
+      this.educationExprience[index].isShowDateStart = false
+      this.educationExprience[index].FromDate = ''
+      this.educationExprience[index].ToDate = '',
+      this.educationExprience[index].showDate = ''
     },
-    // 选择教育经历时间
-    confirmEducationDate(date,index) {
-      this.educationExprience[index].date = this.handleDate(date)
-      // this.$set(this.educationExprience[index], 'date', this.handleDate(date))
-      this.educationExprience[index].isShowDate = false
+    // 确认教育经历时间
+    confirmEducationDateStart(date,index) {
+      const startDate = this.handleDate(date)
+      this.educationExprience[index].isShowDateStart = false
+      this.educationExprience[index].FromDate = startDate
+      this.chooseEducationDateEnd(index)
+    },
+    // 结束时间
+    // 弹出教育经历时间
+    chooseEducationDateEnd(index) {
+      this.educationExprience[index].isShowDateEnd = true
+    },
+    // 关闭教育经历时间
+    closeEducationDateEnd(index) {
+      this.educationExprience[index].isShowDateEnd = false
+      this.educationExprience[index].FromDate = ''
+      this.educationExprience[index].ToDate = '',
+      this.educationExprience[index].showDate = ''
+    },
+    // 确认教育经历时间
+    confirmEducationDateEnd(date,index) {
+      const startDate = this.educationExprience[index].FromDate
+      const endDate = this.handleDate(date)
+      this.educationExprience[index].ToDate = endDate
+      this.educationExprience[index].showDate = `${startDate} 至 ${endDate}`
+      this.educationExprience[index].isShowDateEnd = false
     },
     // 添加工作经历
     addJobExprience() {
       const exprience = {
-        isShow: false,
-        date: '',
-        company: '',
-        position: '',
-        quitReason: '',
+        isShowDateStart: false,
+        isShowDateEnd: false,
+        HireDate: '', // 开始时间
+        DismissDate: '', // 结束时间
+        showDate: '', // 用于展示
+        Company: '',
+        WorkingTypeName: '', // 职位
+        Reason: '',
       }
       this.jobExprience.push(exprience)
     },
@@ -914,21 +999,48 @@ export default {
         this.jobExprience.splice(index, 1)
       })
       .catch((err) => {
-        console.log('cancel');
+        // console.log('cancel');
       })
     },
-    // 选择工作经历时间
-    chooseJobDate(index) {
-      this.jobExprience[index].isShow = true
+        // 开始时间
+    // 弹出工作经历时间
+    chooseJobDateStart(index) {
+      // console.log(index);
+      this.jobExprience[index].isShowDateStart = true
+    },
+    // 关闭教育经历时间
+    closeJobDateStart(index) {
+      this.jobExprience[index].isShowDateStart = false
+      this.jobExprience[index].HireDate = ''
+      this.jobExprience[index].DismissDate = '',
+      this.jobExprience[index].showDate = ''
+    },
+    // 确认教育经历时间
+    confirmJobDateStart(date,index) {
+      const startDate = this.handleDate(date)
+      this.jobExprience[index].isShowDateStart = false
+      this.jobExprience[index].HireDate = startDate
+      this.chooseJobDateEnd(index)
+    },
+    // 结束时间
+    // 弹出工作经历时间
+    chooseJobDateEnd(index) {
+      this.jobExprience[index].isShowDateEnd = true
     },
     // 关闭工作经历时间
-    closeJobDate(index) {
-      this.jobExprience[index].isShow =  false
+    closeJobDateEnd(index) {
+      this.jobExprience[index].isShowDateEnd = false
+      this.jobExprience[index].HireDate = ''
+      this.jobExprience[index].DismissDate = '',
+      this.jobExprience[index].showDate = ''
     },
-    // 
-    confirmJobDate(date, index) {
-      this.jobExprience[index].date = this.handleDate(date)
-      this.closeJobDate(index)
+    // 确认工作经历时间
+    confirmJobDateEnd(date,index) {
+      const startDate = this.jobExprience[index].HireDate
+      const endDate = this.handleDate(date)
+      this.jobExprience[index].DismissDate = endDate
+      this.jobExprience[index].showDate = `${startDate} 至 ${endDate}`
+      this.jobExprience[index].isShowDateEnd = false
     },
     // 上一步
     lastPage() {
@@ -941,11 +1053,23 @@ export default {
         this.progress.current++;
         // 回到顶部
         document.body.scrollTop = document.documentElement.scrollTop = 0
+        if(this.progress.current === 4){
+          setTimeout(() => {
+            // 签名失焦
+            const canvas = document.getElementsByTagName('canvas')[0]
+            const inputList = document.getElementsByTagName('textarea')
+            canvas.addEventListener('touchstart',function() {
+              [...inputList].forEach((item) => {
+                item.blur()
+              })
+            }, true)
+          }, 100);
+      }
       })
       .catch(err => {
+        console.log(err);
         Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
       })
-      
     },
     // 清除签名
     resetSignature() {
@@ -956,8 +1080,8 @@ export default {
       const date = new Date(val)
       return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
     },
-    // 签名检查
-    checkEsign() {
+    // 签名处理
+    handleEsign() {
       return this.$refs.esign.generate()
     },
     // toast loading
@@ -970,51 +1094,83 @@ export default {
         className: 'customToast'
       })
     },
+    // 追加 numID 并且 stringify
+    handleStringify(arr) {
+      return JSON.stringify(arr.map((value, index) => ({...value, numID: index+1})))
+    },
+    // 处理紧急联系人
+    handleEmergentContactList() {
+      return this.handleStringify(this.emergentContact)
+    },
+    // 处理教育经历
+    handleEducationList() {
+      const educationList = this.educationExprience.map(value => {
+        const { isShowDateStart, isShowDateEnd, isShowSchoolType, showDate, showSchoolType, ...arg } = value
+        return { ...arg }
+      })
+      return this.handleStringify(educationList)
+    },
+    // 处理工作经历
+    handleJobList() {
+      const jobList = this.jobExprience.map(value => {
+        const { isShowDateStart, isShowDateEnd, showDate, ...arg} = value
+        return { ...arg }
+      })
+      return this.handleStringify(jobList)
+    },
 
     // 提交
     async submit() {
-      const signature = await this.checkEsign()
-      const uuid = UUID()
-      console.log(uuid);
-      upLoadImg(uuid, signature.split(',')[1])
-      .then(res => {
-        console.log(res);
+      // 验证表单
+      this.$refs.form.validate()
+      .then(async res => {
+        // 验证签名
+        this.handleEsign()
+        .then(res => {
+          const uuid = UUID()
+          const splitImg = res.split(',')[1]
+          upLoadImg(uuid, splitImg)
+          .then(res => {
+            const SignPhotoPath = res.data.results.url
+            const toast = this.loadingToast('提交中')
+            // 请求
+            this.submitAction(SignPhotoPath)
+            .then((res) => {
+              // console.log(res);
+              toast.message = '提交成功!'
+              toast.icon = successImg
+              setTimeout(function() {
+                toast.clear()
+                window.location.reload()
+              }, 2000);
+            })
+            .catch(err => {
+              toast.message = '提交失败!'
+              toast.icon = 'fail'
+              setTimeout(toast.clear, 2000);
+              // console.log(err);
+            })
+          })
+        })
+        .catch(err => {
+          Notify({ type: 'danger', message: '您尚未签名！' });
+        })
       })
       .catch(err => {
-        console.error(err);
+        // console.log(err);
+        Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
       })
-      // // 验证表单
-      // this.$refs.form.validate()
-      // .then(res => {
-      //   // 签名检查
-      //   const check = this.checkEsign()
-      //   check.then(res => {
-      //     const toast = loadingToast('提交中')
-      //     // 请求
-      //     this.submitAction()
-      //     .then((res) => {
-      //       console.log(res);
-      //       toast.message = '提交成功!'
-      //       toast.icon = successImg
-      //       setTimeout(toast.clear, 2000);
-      //     })
-      //   })
-      //   .catch(err => {
-      //     Notify({ type: 'danger', message: '您尚未签名！' });
-      //   })
-      // })
-      // .catch(err => {
-      //   Notify({ type: 'danger', message: '表单尚未完善或内容填写有误！' });
-      // })
     },
-    submitAction() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve('success')
-        }, 3000);
+    // 提交表单
+    submitAction(SignPhotoPath) {
+      return submitForm({
+        ...this.form,
+        EmergencyContactList: this.handleEmergentContactList(),
+        EducationList: this.handleEducationList(),
+        WorkExperienceList: this.handleJobList(),
+        SignPhotoPath,
       })
     }
-
   },
 }
 </script>
