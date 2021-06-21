@@ -16,7 +16,7 @@
 }
 /* cell */
 .van-cell {
-  padding: 10px 8px !important;
+  padding: 0.14rem 0.08rem 0.14rem 0.2rem !important;
 }
 /* 按钮 */
 .van-button--normal {
@@ -82,4 +82,36 @@
 }
 .van-loading__spinner--circular {
   color: #F25314;
+}
+.button-container-inner .van-button {
+  width: 46%;
+  height: auto;
+  padding: 0.26rem;
+}
+.button-container-inner .van-button__text {
+  font-size: 0.3rem;
+}
+.form-base .van-field__label, 
+.form-base .van-radio__label {
+  font-size: 0.3rem;
+}
+.van-cell--required::before {
+  position: absolute;
+  left: 0.07rem;
+  color: #ee0a24;
+  font-size: 14px;
+  content: '*';
+}
+input, textarea {
+  font-size: 0.32rem;
+}
+textarea {
+  height: 1.5rem;
+}
+.van-picker .van-ellipsis {
+  font-size: 0.32rem;
+}
+.van-picker__cancel,
+.van-picker__confirm {
+  font-size: 0.32rem;
 }

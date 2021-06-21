@@ -47,6 +47,7 @@
                     error-message-align="right"
                     :rules="rules.id"/> -->
                   <van-field
+                    required
                     v-model="form.CompanyName"
                     label="姓名："
                     input-align="right"
@@ -54,6 +55,7 @@
                     error-message-align="right"
                     :rules="rules.name"/>
                   <van-field
+                    required
                     readonly
                     clickable
                     :value="pickerText.gender"
@@ -74,6 +76,7 @@
                     />
                   </van-popup>
                   <van-field
+                    required
                     readonly
                     clickable
                     :value="pickerText.nation"
@@ -102,6 +105,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-cell-group>
                 <van-field
+                  required
                   v-model="form.age"
                   label="年龄："
                   input-align="right"
@@ -110,6 +114,7 @@
                   error-message-align="right"
                   :rules="rules.age"/>
                 <van-field
+                  required
                   v-model="form.HighestEducation"
                   label="最高学历："
                   input-align="right"
@@ -117,6 +122,7 @@
                   error-message-align="right"
                   :rules="rules.education"/>
                 <van-field
+                  required
                   readonly
                   clickable
                   placeholder="请选择"
@@ -139,6 +145,7 @@
                   />
                 </van-popup>
                 <van-field
+                  required
                   v-model="form.GovernmentIDNumber"
                   label="身份证号码："
                   input-align="right"
@@ -146,6 +153,7 @@
                   error-message-align="right"
                   :rules="rules.IDNumber"/>
                 <van-field
+                  required
                   v-model="form.RegisteredPermanentAddressLocus"
                   label="户口所在地："
                   input-align="right"
@@ -161,6 +169,7 @@
               <van-divider :style="{ borderColor: 'transparent' }" />
                 <van-cell-group>
                   <van-field
+                    required
                     v-model="form.Mobile"
                     label="电话号码："
                     input-align="right"
@@ -169,6 +178,7 @@
                     error-message-align="right"
                     :rules="rules.tel"/>
                   <van-field
+                    required
                     v-model="form.ContactAddress"
                     label="联系地址："
                     input-align="right"
@@ -177,7 +187,7 @@
                     :rules="rules.address"/>
                   <van-field
                     v-model="form.PostCode"
-                    label="邮编："
+                    label="邮编:（选填）"
                     input-align="right"
                     placeholder="请填写"
                     type="digit"
@@ -191,7 +201,7 @@
             <div class="form-base wrap">
               <h2 class="base-info-header">自身情况</h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
-              <h3 class="radio-title">户籍情况：</h3>
+              <h3 class="radio-title require">户籍情况：</h3>
               <van-field name="radio" class="no-border" :rules="rules.residenceSituation">
                 <template #input>
                   <van-radio-group v-model="form.ResidenceType" direction="horizontal">
@@ -210,7 +220,7 @@
                   </van-radio-group>
                 </template>
               </van-field>
-              <h3 class="radio-title">家庭病史：</h3>
+              <h3 class="radio-title require">家庭病史：</h3>
               <van-field name="radio" class="no-border" :rules="rules.medicalHistory">
                 <template #input>
                   <van-radio-group v-model="form.MedicalHistory" direction="horizontal">
@@ -229,7 +239,7 @@
                   </van-radio-group>
                 </template>
               </van-field>
-              <h3 class="radio-title">在岗情况：</h3>
+              <h3 class="radio-title require">在岗情况：</h3>
               <van-field name="radio" class="no-border" :rules="rules.jobSituation">
                 <template #input>
                   <van-radio-group v-model="form.OnTheJob" direction="horizontal">
@@ -248,7 +258,7 @@
                   </van-radio-group>
                 </template>
               </van-field>
-              <h3 class="radio-title">是否需要推荐就业：</h3>
+              <h3 class="radio-title require">是否需要推荐就业：</h3>
               <van-field name="radio" class="no-border" :rules="rules.needRecommend">
                 <template #input>
                   <van-radio-group v-model="form.RecommendEmployment" direction="horizontal">
@@ -267,7 +277,7 @@
                   </van-radio-group>
                 </template>
               </van-field>
-              <h3 class="radio-title">培训意愿：</h3>
+              <h3 class="radio-title require">培训意愿：</h3>
               <van-field name="radio" class="no-border" :rules="rules.trainWill">
                 <template #input>
                   <van-radio-group v-model="form.Trianning" direction="horizontal">
@@ -286,7 +296,7 @@
                   </van-radio-group>
                 </template>
               </van-field>
-              <h3 class="radio-title">是否参加过技能培训：</h3>
+              <h3 class="radio-title require">是否参加过技能培训：</h3>
               <van-field name="radio" class="no-border" :rules="rules.hadTrain">
                 <template #input>
                   <van-radio-group v-model="form.ParticipatedSkillsTraining" direction="horizontal">
@@ -321,6 +331,7 @@
                 </h3>
                 <van-cell-group>
                   <van-field
+                    required
                     v-model="contact.CompanyName"
                     label="姓名："
                     input-align="right"
@@ -328,6 +339,7 @@
                     error-message-align="right"
                     :rules="rules.emergentContact.name"/>
                   <van-field
+                    required
                     v-model="contact.RelationShip"
                     label="关系："
                     input-align="right"
@@ -335,6 +347,7 @@
                     error-message-align="right"
                     :rules="rules.emergentContact.relationship"/>
                   <van-field
+                    required
                     v-model="contact.Mobile"
                     label="联系电话："
                     type="digit"
@@ -348,7 +361,7 @@
             </div>
             <!-- 报名渠道 -->
             <div class="form-base wrap">
-              <h2 class="base-info-header">报名渠道</h2>
+              <h2 class="base-info-header title-require">报名渠道</h2>
               <!-- <van-divider :style="{ borderColor: 'transparent' }" /> -->
               <van-field name="radio" class="no-border sign-up-method" :rules="rules.signUpMethod">
                 <template #input>
@@ -446,8 +459,10 @@
                     v-model="education.SchoolName"
                     label="学校全称：(选填)"
                     input-align="right"
-                    placeholder="请填写"/>
+                    placeholder="请填写"
+                  />
                   <van-field
+                    required
                     readonly
                     clickable
                     :value="education.showSchoolType"
@@ -457,23 +472,24 @@
                     error-message-align="right"
                     :rules="rules.educationExprience.education"
                     right-icon="arrow-down"
-                    @click="chooseSchoolType(index)"/>
+                    @click="chooseSchoolType(index)"
+                  />
                   <van-popup v-model="education.isShowSchoolType" round position="bottom" safe-area-inset-bottom>
                     <van-picker
                       title="选择学历"
                       show-toolbar
                       :columns="schoolType"
-                      @cancel="chooseSchoolType = false"
+                      @cancel="cancelSchoolType(index)"
                       @confirm="confirmSchoolType($event,index)"
                     />
                     </van-popup>
                   <van-field
                     v-model="education.Major"
-                    label="专业："
+                    label="专业：(选填)"
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
-                    :rules="rules.educationExprience.major"/>
+                  />
                 </van-cell-group>
                 <van-divider dashed :style="{ borderColor: '#ccc' }" />
               </div>
@@ -500,7 +516,7 @@
                     placeholder="请选择"
                     right-icon="arrow-down"
                     @click="chooseJobDateStart(index)"
-                    />
+                  />
                     <!-- <van-calendar
                       v-model="job.isShowDate"
                       @confirm="confirmJobDate($event,index)"
@@ -545,25 +561,26 @@
                   </van-popup>
                   <van-field
                     v-model="job.Company"
-                    label="工作单位："
+                    label="工作单位：(选填)"
                     input-align="right"
                     placeholder="请填写"
-                    error-message-align="right"
-                    :rules="rules.jobExprience.company"/>
+                    error-message-align="right"/>
                   <van-field
+                    required
                     v-model="job.WorkingTypeName"
                     label="职位："
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
-                    :rules="rules.jobExprience.position"/>
+                    :rules="rules.jobExprience.position"
+                  />
                   <van-field
                     v-model="job.Reason"
-                    label="离职原因："
+                    label="离职原因：(选填)"
                     input-align="right"
                     placeholder="请填写"
                     error-message-align="right"
-                    :rules="rules.jobExprience.quitReason"/>
+                  />
                 </van-cell-group>
                 <van-divider dashed :style="{ borderColor: '#ccc' }" />
               </div>
@@ -571,7 +588,7 @@
           </div>
           <div v-if="progress.current === 4">
             <div class="form-base wrap">
-              <h2 class="base-info-header">个人技能<span class="base-info-header-desc">（如护工、月嫂……）</span></h2>
+              <h2 class="base-info-header title-require">个人技能<span class="base-info-header-desc">（如护工、月嫂……）</span></h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
                 class="text-area-bg no-border"
@@ -581,17 +598,17 @@
                 show-word-limit
                 error-message-align="right"
                 :rules="rules.skills"/>
-              <h2 class="base-info-header">特长<span class="base-info-header-desc">（如做饭、唱歌、跳舞......）</span></h2>
+              <h2 class="base-info-header title-require">特长<span class="base-info-header-desc">（如做饭、唱歌、跳舞......）</span></h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
-              class="text-area-bg no-border"
+                class="text-area-bg no-border"
                 v-model="form.Specialty"
                 type="textarea"
                 placeholder="请填写……"
                 show-word-limit
                 error-message-align="right"
                 :rules="rules.specialty"/>
-              <h2 class="base-info-header">个人描述<span class="base-info-header-desc">（如干活麻利、有耐心......</span></h2>
+              <h2 class="base-info-header title-require">个人描述<span class="base-info-header-desc">（如干活麻利、有耐心......</span></h2>
               <van-divider :style="{ borderColor: 'transparent' }" />
               <van-field
                 class="text-area-bg no-border"
@@ -613,10 +630,12 @@
     <!-- 签字处 -->
     <div class="signature-container" v-if="progress.current===4">
       <div class="wrap">
-        <h2 class="base-info-header">本人签字</h2>
+        <h2 class="base-info-header title-require">本人签字</h2>
         <div class="signature-place">
           <span class="reset-signature" @click="resetSignature">清除文字</span>
-          <vue-esign ref="esign" :isCrop="true" :width="800" :height="520" />
+          <div class="signature-place-inner">
+            <vue-esign ref="esign" :isCrop="true" :width="700" :height="520" />
+          </div>
         </div>
       </div>
     </div>
@@ -769,9 +788,11 @@ export default {
           { required: true, message: '请填写联系地址！' }
         ],
         postcode: [
-          { required: true, message: '请填写邮编！' },
           {
-            pattern: /^[0-9]{6}$/,
+            validator(value) {
+              const reg = /^[0-9]{6}$/
+              return reg.test(value) || value === ''
+            },
             message: '邮编格式有误！'
           }
         ],
@@ -885,6 +906,9 @@ export default {
     // 弹出学历选择
     chooseSchoolType(index) {
       this.educationExprience[index].isShowSchoolType = true
+    },
+    cancelSchoolType(index) {
+      this.educationExprience[index].isShowSchoolType = false
     },
     // 确认学历
     confirmSchoolType(schoolType, index) {
@@ -1225,6 +1249,7 @@ export default {
   font-size: 0.32rem;
   color: #F25314;
   font-weight: bold;
+  /* position: relative; */
 }
 .base-info-avatar {
   display: flex;
@@ -1251,6 +1276,25 @@ export default {
   font-size: 0.3rem;
   line-height: 0.4rem;
   color: #666;
+  position: relative;
+  padding-left: 0.12rem;
+}
+.require::after {
+  position: absolute;
+  left: 0;
+  color: #ee0a24;
+  font-size: 14px;
+  content: '*';
+}
+.title-require {
+  position: relative;
+}
+.title-require::after {
+  position: absolute;
+  left: -0.14rem;
+  color: #ee0a24;
+  font-size: 14px;
+  content: '*';
 }
 /* 单选 - 公共 - 未选中 */
 .radio-icon-normal {
@@ -1303,7 +1347,12 @@ export default {
 }
 .signature-container {
   background: #fff;
-  padding: 0.3rem 0;
+  padding: 0.3rem 0 0.5rem;
+  /* overflow: hidden; */
+}
+.signature-place-inner {
+  height: 250px;
+  overflow: hidden;
 }
 .signature-place {
   position: relative;
@@ -1319,7 +1368,7 @@ export default {
   color: #999999;
   font-size: 0.3rem;
   position: absolute;
-  bottom: 0.1rem;
+  bottom: -0.4rem;
 }
 /* 重置 */
 .reset-signature {
