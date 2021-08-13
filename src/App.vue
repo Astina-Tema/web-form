@@ -1145,28 +1145,37 @@ export default {
 
     // 提交
     async submit() {
+      // console.log('?');
       // 验证表单
       this.$refs.form.validate()
       .then(async res => {
         // 验证签名
         this.handleEsign()
         .then(res => {
+          // console.log(res);
+          // console.log('生成签名');
           const uuid = UUID()
           const splitImg = res.split(',')[1]
           upLoadImg(uuid, splitImg)
           .then(res => {
+            // console.log('提交图片');
+            // console.log(res);
             const SignPhotoPath = res.data.results.url
             const toast = this.loadingToast('提交中')
             // 请求
             this.submitAction(SignPhotoPath)
             .then((res) => {
-              // console.log(res);
-              toast.message = '提交成功!'
-              toast.icon = successImg
-              setTimeout(function() {
-                toast.clear()
-                window.location.reload()
-              }, 2000);
+              if(res.data.status === '1'){
+                // console.log(res);
+                toast.message = '提交成功!'
+                toast.icon = successImg
+                setTimeout(function() {
+                  toast.clear()
+                  window.location.reload()
+                }, 2000);
+              }else {
+                return Promise.reject()
+              }
             })
             .catch(err => {
               toast.message = '提交失败!'
@@ -1187,6 +1196,9 @@ export default {
     },
     // 提交表单
     submitAction(SignPhotoPath) {
+      if(!this.form.PostCode){
+        this.form.PostCode = 0
+      }
       return submitForm({
         ...this.form,
         EmergencyContactList: this.handleEmergentContactList(),

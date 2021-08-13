@@ -11,7 +11,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://192.168.5.160/WS/ws/Ws.asmx',
+        target: 'http://47.105.130.252/AstinaERPWS/AstinaWs.asmx',
+        // target: 'http://192.168.5.46/WS/ws/Ws.asmx',
         // target: 'http://47.105.130.252/AstinaERPWS/AstinaWs.asmx',
         // target: 'http://192.168.5.160/AstinaWS/astinaws.asmx',
         changeOrigin: true,
